@@ -62,10 +62,10 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <CursorContext.Provider value={{ cursorRef, moveCursor, scaleCursor, scaleRevertCursor }}>
       {children}
-      {/* <div
+      <div
         ref={cursorRef}
         className="fixed top-0 left-0 h-[20px] w-[20px] bg-gray-200 rounded-full z-50 pointer-events-none mix-blend-difference shadow"
-      /> */}
+      />
     </CursorContext.Provider>
   );
 };
