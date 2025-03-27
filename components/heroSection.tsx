@@ -20,43 +20,39 @@ const HeroSection = () => {
 
   useGSAP(() => {
     const t1 = gsap.timeline({ defaults: { duration: 1.5, ease: "power2.out" } });
+  
+    // Initial Fade-in Animation (Runs on Load)
+    t1.from(".title", { y: 100, opacity: 0 });
+    t1.from(".btnRef", { x: 50, opacity: 0});
 
-    // Fade in effect for title & button
-    t1.from(".title", { y: 100, opacity: 0, stagger: 0.1 });
-    t1.from(".btnRef", { x: 50, opacity: 0, stagger: 0.2 });
-
-    // Parallax Scroll Effect
+  
     if (heroRef.current) {
-      gsap.to(heroRef.current, {
-        y: "-20%", // Moves the section up for a parallax effect
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1, // Makes it smooth
-        },
+      // Parallax Effect for Hero Section (Starts only on scroll)
+      ScrollTrigger.create({
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        animation: gsap.to(heroRef.current, { y: "-20%", scale: 0.8, ease: "none" }),
       });
-
-      gsap.to(".title", {
-        y: "-10%",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top center",
-          scrub: 1,
-        },
+      // Parallax Effect for Title (Starts only on scroll)
+      ScrollTrigger.create({
+        trigger: heroRef.current,
+        start: "top bottom",
+        scrub: 1,
+        animation: gsap.to(".title", {delay: 1, y: "-10%" }),
       });
-
-      gsap.to(".btnRef", {
-        y: "-5%",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top center",
-          scrub: 1,
-        },
+  
+      // Parallax Effect for Button (Starts only on scroll)
+      ScrollTrigger.create({
+        trigger: heroRef.current,
+        start: "top center",
+        scrub: 1,
+        animation: gsap.to(".btnRef", { y: "-5%" , x: -50}),
       });
     }
   });
+  
 
   useEffect(() => {
     if (!textRef.current) return;

@@ -47,10 +47,10 @@ const Button = forwardRef<HTMLButtonElement, Props>(
         ref={ref}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`flex items-center gap-2 rounded-full border-1 overflow-hidden px-6 py-6 text-nowrap ${className}`}
+        className={` relative flex items-center gap-2 rounded-full border-1 overflow-hidden px-6 py-6 text-nowrap ${className}`}
         {...props}
       >
-        <div className="anim absolute top-0 left-[-100%] w-full h-full bg-[#000000]  -z-10"></div>
+        <div className=" anim absolute top-0 left-[-100%] w-full h-full bg-[#000000]  -z-10"></div>
         <span className="text-[13px] font-semibold text text-black">{title}</span>
         {Icon && <Icon className="text" size={20} />}
       </button>
