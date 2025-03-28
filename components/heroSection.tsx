@@ -19,7 +19,7 @@ const HeroSection = () => {
   const { scaleCursor, scaleRevertCursor } = useCursor();
 
   useGSAP(() => {
-    const t1 = gsap.timeline({ defaults: { duration: 1.5, ease: "power2.out" } });
+    const t1 = gsap.timeline({ defaults: { duration: 1, ease: "power2.out" } });
   
     // Initial Fade-in Animation (Runs on Load)
     t1.from(".title", { y: 100, opacity: 0 });
@@ -71,8 +71,51 @@ const HeroSection = () => {
     return () => splitText.revert();
   }, []);
 
+  useEffect(() => {
+    if (!textRef.current) return;
+
+    // Split the text into individual characters
+    const splitText = new SplitType(textRef.current, { types: "chars" });
+
+    if (!splitText.chars) return; // Extra safety check
+
+    // Function to animate a single character on hover
+    const handleMouseEnter = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+
+      gsap.fromTo(
+        target,
+        { opacity: 0, y: -5, rotationX: 180 },
+        {
+          opacity: 1,
+          y: 0,
+          rotationX: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        }
+      );
+    };
+
+    // Attach event listeners to each character
+    splitText.chars.forEach((char) => {
+      if (char instanceof HTMLElement) {
+        char.style.display = "inline-block"; // Prevents layout shifting
+        char.addEventListener("mouseenter", handleMouseEnter);
+      }
+    });
+
+    // Cleanup event listeners
+    return () => {
+      splitText.chars?.forEach((char) => {
+        if (char instanceof HTMLElement) {
+          char.removeEventListener("mouseenter", handleMouseEnter);
+        }
+      });
+    };
+  }, []);
   return (
-    <div ref={heroRef} className="relative min-h-screen flex flex-col justify-center items-center">
+    <div ref={heroRef} className="relative min-h-screen flex flex-col justify-center lg:justify-evenly items-center">
       <div className="flex justify-center items-center">
         <h2
           className="title text-clamp"

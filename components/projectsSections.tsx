@@ -8,11 +8,15 @@ import { useGSAP } from "@gsap/react";
 import Image1 from "@/assets/Images/1082549.png";
 import Image2 from "@/assets/Images/2008451.jpg";
 import Image3 from "@/assets/Images/8921360.jpg";
+import { useCursor } from "./ui/Cursor";
 
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projectsSections = () => {
+
+  const {scaleCursor, scaleRevertCursor} = useCursor();
+
 
     useGSAP(()=> {
 
@@ -53,6 +57,15 @@ const projectsSections = () => {
 
 
   return (
+    <>
+    <div className="flex justify-center flex-col items-center">
+      <h1
+      onMouseEnter={() => scaleCursor(8)}
+      onMouseLeave={() => scaleRevertCursor()}
+      className="text-9xl font-bold italic">
+      Projects
+      </h1>
+    </div>
     <div className="gallery flex">
       {/* Left Content (Text) */}
       <div className="left hidden lg:block w-full lg:w-1/2 flex justify-center">
@@ -92,24 +105,43 @@ const projectsSections = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
 const content = [
   {
-    title: "Red",
+    title: "Zentry",
     description: "Red is a color often associated with strong emotions such as passion, love, and anger...Red is a color often associated with strong emotions such as passion, love, and anger...Red is a color often associated with strong emotions such as passion, love, and anger...",
     color: "bg-red-500",
     image: Image1,
   },
   {
-    title: "Green",
+    title: "Fizzi3d",
     description: "Green is a color that is often associated with nature, growth, and harmony...",
     image: Image2,
     color: "bg-green-500",
   },
   {
-    title: "Pink",
+    title: "Apple UI Clone",
+    description: "Pink is a color that is often associated with femininity, romance, and sweetness...",
+    image: Image3,
+    color: "bg-pink-500",
+  },
+  {
+    title: "NoteIt",
+    description: "Pink is a color that is often associated with femininity, romance, and sweetness...",
+    image: Image3,
+    color: "bg-pink-500",
+  },
+  {
+    title: "TrackWise",
+    description: "Pink is a color that is often associated with femininity, romance, and sweetness...",
+    image: Image3,
+    color: "bg-pink-500",
+  },
+  {
+    title: "Public Chat App",
     description: "Pink is a color that is often associated with femininity, romance, and sweetness...",
     image: Image3,
     color: "bg-pink-500",
