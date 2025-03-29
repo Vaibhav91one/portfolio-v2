@@ -5,10 +5,10 @@ import Image from "next/image";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import Image1 from "@/assets/Images/1082549.png";
-import Image2 from "@/assets/Images/2008451.jpg";
-import Image3 from "@/assets/Images/8921360.jpg";
-import { techIcons } from "@/assets/icons/icons"; // Import icons map
+import Image1 from "@/public/assets/Images/1082549.png";
+import Image2 from "@/public/assets/Images/2008451.jpg";
+import Image3 from "@/public/assets/Images/8921360.jpg";
+import { techIcons } from "@/public/assets/icons/icons"; // Import icons map
 import { useCursor } from "./ui/Cursor";
 import SplitType from "split-type";
 import { ArrowRight, GitBranchIcon, Github, Link } from "lucide-react";
