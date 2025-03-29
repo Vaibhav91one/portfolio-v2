@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+  images: {
+    dangerouslyAllowSVG: true, // Allows SVGs in next/image
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
 };
+
 
 export default nextConfig;
