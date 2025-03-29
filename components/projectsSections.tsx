@@ -14,6 +14,7 @@ import SplitType from "split-type";
 import { ArrowRight, GitBranchIcon, Github, Link } from "lucide-react";
 import AnimatedParagraph from "./ui/AnimatedText";
 import Button from "./ui/Button";
+import NextJSIcon from "./svg/nextjs";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -245,7 +246,7 @@ const projectsSections = () => {
                   <AnimatedParagraph description={item.description} />
                 </div>
                 <div className="flex justify-start items-center gap-10">
-                  {item.techStack.map((tech, i) => {
+                  {/* {item.techStack.map((tech, i) => {
                     const iconPath: any = techIcons[tech]; // Get image path
                     return iconPath ? (
                       <Image
@@ -258,7 +259,8 @@ const projectsSections = () => {
                         className="techIcon"
                       />
                     ) : null;
-                  })}
+                  })} */}
+                  <NextJSIcon/>
                 </div>
                 <div>
                   <a
