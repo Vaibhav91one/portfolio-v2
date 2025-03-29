@@ -21,9 +21,20 @@ const HeroSection = () => {
   useGSAP(() => {
     const t1 = gsap.timeline({ defaults: { duration: 1, ease: "power2.out" } });
 
-    // Initial Fade-in Animation (Runs on Load)
-    t1.from(".title", { y: 100, opacity: 0 });
-    t1.from(".btnRef", { x: 50, opacity: 0 });
+    t1.from(".title", { 
+      y: 100, 
+      opacity: 0, 
+      duration: 1,  // Smooth transition (1 second)
+      ease: "power2.out" // Eases out for a smoother effect
+    })
+      .from(".btnRef", { 
+        x: 50, 
+        opacity: 0, 
+        duration: 0.8, // Slightly faster (0.8 seconds)
+        ease: "power2.out", 
+        delay: 0.2 // Adds a slight delay after title animation
+      });
+    
 
     // Parallax effects
     if (heroRef.current) {
@@ -55,64 +66,6 @@ const HeroSection = () => {
     }
   });
 
-  // useEffect(() => {
-  //   if (!textRef.current) return;
-
-  //   const splitText = new SplitType(textRef.current, { types: "lines" });
-
-  //   gsap.from(splitText.lines, {
-  //     opacity: 0,
-  //     x: 50,
-  //     stagger: 0.2,
-  //     // ease: "power2.out",
-  //   });
-
-  //   return () => splitText.revert();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!textRef.current) return;
-
-  //   // Split the text into individual characters
-  //   const splitText = new SplitType(textRef.current, { types: "chars" });
-
-  //   if (!splitText.chars) return; // Extra safety check
-
-  //   // Function to animate a single character on hover
-  //   const handleMouseEnter = (event: MouseEvent) => {
-  //     const target = event.target as HTMLElement | null;
-  //     if (!target) return;
-
-  //     gsap.fromTo(
-  //       target,
-  //       { opacity: 0, y: -5, rotationX: 180 },
-  //       {
-  //         opacity: 1,
-  //         y: 0,
-  //         rotationX: 0,
-  //         duration: 0.4,
-  //         ease: "power2.out",
-  //       }
-  //     );
-  //   };
-
-  //   // Attach event listeners to each character
-  //   splitText.chars.forEach((char) => {
-  //     if (char instanceof HTMLElement) {
-  //       char.style.display = "inline-block"; // Prevents layout shifting
-  //       char.addEventListener("mouseenter", handleMouseEnter);
-  //     }
-  //   });
-
-  //   // Cleanup event listeners
-  //   return () => {
-  //     splitText.chars?.forEach((char) => {
-  //       if (char instanceof HTMLElement) {
-  //         char.removeEventListener("mouseenter", handleMouseEnter);
-  //       }
-  //     });
-  //   };
-  // }, []);
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -135,7 +88,7 @@ const HeroSection = () => {
     gsap.to(splitLines.lines, {
       opacity: 1,
       x: 0,
-      delay: 2, // Delay before animation starts
+      delay: 0.3, // Delay before animation starts
       stagger: 0.2,
       ease: "power2.out",
     });

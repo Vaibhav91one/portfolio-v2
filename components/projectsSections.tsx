@@ -8,8 +8,12 @@ import { useGSAP } from "@gsap/react";
 import Image1 from "@/assets/Images/1082549.png";
 import Image2 from "@/assets/Images/2008451.jpg";
 import Image3 from "@/assets/Images/8921360.jpg";
+import { techIcons } from "@/assets/icons/icons"; // Import icons map
 import { useCursor } from "./ui/Cursor";
 import SplitType from "split-type";
+import { ArrowRight, GitBranchIcon, Github, Link } from "lucide-react";
+import AnimatedParagraph from "./ui/AnimatedText";
+import Button from "./ui/Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,40 +25,49 @@ const quotes = [
   "Your work is your signature. Make it legendary.",
   "Dream big. Create bigger.",
   "Innovation begins where imagination meets execution.",
-  "Great things are done by a series of small things brought together. — Van Gogh",
 ];
 
 const projectsSections = () => {
   const { scaleCursor, scaleRevertCursor } = useCursor();
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const textRef = useRef<HTMLHeadingElement | null>(null);
+  // const projectRef = useRef<HTMLDivElement | null>(null);
+  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const [currentQuote, setCurrentQuote] = useState(0);
 
   useEffect(() => {
+    if (!textRef.current) return;
+
     const tl = gsap.timeline({ repeat: -1 });
 
     tl.to(textRef.current, {
       opacity: 1,
+      scale: 1.2, // Slight zoom-in effect
       y: 0,
       duration: 0.5,
       ease: "power2.out",
-    })
-      .to(textRef.current, {
-        opacity: 0,
-        y: -30,
-        duration: 0.5,
-        ease: "power2.out",
-        delay: 2,
-      })
-      .call(() => {
+    }).to(textRef.current, {
+      opacity: 0,
+      scale: 0.8, // Shrink effect
+      y: -30,
+      duration: 0.5,
+      ease: "power2.out",
+      delay: 2,
+      onComplete: () => {
         setCurrentQuote((prev) => (prev + 1) % quotes.length);
-      });
+        gsap.fromTo(
+          textRef.current,
+          { scale: 1.5, opacity: 0, y: 30 },
+          { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+        );
+      },
+    });
 
     return () => {
-      tl.kill(); // Cleanup GSAP animation properly
+      tl.kill(); // Cleanup function correctly kills the timeline
     };
-  }, [currentQuote]); // Dependency ensures re-run when quote changes
+  }, [currentQuote]);
 
   useGSAP(() => {
     const photos = gsap.utils.toArray(".desktopPhoto:not(:first-child)");
@@ -64,6 +77,7 @@ const projectsSections = () => {
 
     gsap.set(photos, { yPercent: 101 });
 
+
     let mm = gsap.matchMedia();
 
     mm.add("(min-width: 1024px)", () => {
@@ -72,6 +86,7 @@ const projectsSections = () => {
         start: "top top",
         end: "bottom bottom",
         pin: ".right",
+        scrub: true,
       });
 
       details.forEach((detail, index) => {
@@ -80,11 +95,73 @@ const projectsSections = () => {
           trigger: headline,
           start: "top 80%",
           end: "top 50%",
-          animation: gsap.to(photos[index]!, { yPercent: 0 }),
+          animation: gsap.to(photos[index]!, {
+            yPercent: 0,
+            ease: "power2.out",
+            duration: 0.5,
+          }),
           scrub: true,
-          markers: false,
         });
       });
+
+
+      const sections = sectionsRef.current;
+
+    // Animate each section individually
+    sections.forEach((section, index) => {
+      gsap.from(section, {
+        opacity: 0,
+        scale: 0.8, // Shrink effect
+        y: -30,
+        duration: 0.5,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          scrub: true,
+        },
+      });
+
+      if (section) {
+        gsap.from(section.querySelectorAll(".techIcon"), {
+          opacity: 0,
+          y: 20,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        gsap.from(section.querySelectorAll(".project-title"), {
+          opacity: 0,
+          y: 20,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        gsap.from(section.querySelectorAll(".project-btn"), {
+          opacity: 0,
+          y: 20,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+    });
+
     });
   }, []);
 
@@ -93,58 +170,110 @@ const projectsSections = () => {
 
     const splitText = new SplitType(headingRef.current, { types: "chars" });
 
-    gsap.fromTo(
-      splitText.chars,
-      { opacity: 0,
-        duration: 0.2,
-        y: 50,
-        stagger: 0.2 },
-      {
-        opacity: 1,
-        y: 0,
-        stagger: 0.2,
-        duration: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".heading",
-          start: "top 80%",
-          end: "top 20%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+    gsap.from(splitText.chars, {
+      opacity: 0,
+      scale: 0.5,
+      y: 20,
+      stagger: 0.2,
+      duration: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".heading",
+        start: "top 80%",
+        end: "top 20%",
+        scrub: true,
+        // toggleActions: "play none none reverse",
+      },
+    });
   }, []);
+
+  useEffect(() => {
+    if (!headingRef.current) return;
+
+    ScrollTrigger.create({
+      trigger: headingRef.current,
+      start: "top top",
+      end: "bottom top",
+      scrub: 1,
+      animation: gsap.to(headingRef.current, {
+        y: "-20%",
+        scale: 0.8,
+        opacity: 0,
+        ease: "power1.out",
+      }),
+    });
+  }, []);
+
+  console.log(techIcons);
 
   return (
     <>
-      <div className="flex justify-center flex-col items-center">
+      <div className="project-section flex justify-center flex-col items-center">
         <h1
           ref={headingRef}
           onMouseEnter={() => scaleCursor(8)}
           onMouseLeave={() => scaleRevertCursor()}
-          className=" heading text-9xl italic"
+          className=" heading text-clamp-heading italic"
         >
           Projects
         </h1>
         <div className="overflow-hidden whitespace-nowrap w-full py-10">
-          <h1 ref={textRef} className="animated-text text-2xl text-center text-gray-500">
+          <h1
+            ref={textRef}
+            className="animated-text text-xs lg:text-xl text-center text-wrap text-gray-500"
+          >
             {quotes[currentQuote]}
           </h1>
         </div>
       </div>
-      <div className="gallery flex">
+      <div className="gallery flex justify-between gap-10">
         {/* Left Content (Text) */}
-        <div className="left hidden lg:block w-full lg:w-1/2 flex justify-center">
-          <div className="desktopContent w-[80%]">
+        <div className="left hidden lg:block w-full lg:w-1/3 flex justify-center">
+          <div className="desktopContent w-full">
             {content.map((item, index) => (
               <div
+                ref={(el) => {
+                  if (el) sectionsRef.current[index] = el; // Assign without returning anything
+                }}
                 key={index}
-                className="desktopContentSection min-h-screen flex flex-col justify-center"
+                className="desktopContentSection min-h-screen flex flex-col justify-center gap-10"
               >
-                <h1 className="text-4xl md:text-5xl font-bold">{item.title}</h1>
-                <p className="text-lg md:text-2xl leading-relaxed">
-                  {item.description}
-                </p>
+                <div>
+                  <h1 className="project-title text-4xl md:text-3xl font-bold flex justify-start items-center gap-2">
+                    {item.title}
+                  </h1>
+                  <AnimatedParagraph description={item.description} />
+                </div>
+                <div className="flex justify-start items-center gap-10">
+                  {item.techStack.map((tech, i) => {
+                    const iconPath: any = techIcons[tech]; // Get image path
+                    return iconPath ? (
+                      <Image
+                        key={i}
+                        src={iconPath}
+                        alt={tech}
+                        width={40} // Adjust size as needed
+                        height={40}
+                        title={tech} // Tooltip on hover
+                        className="techIcon"
+                      />
+                    ) : null;
+                  })}
+                </div>
+                <div>
+                  <a
+                    href={item.github}
+                    onMouseEnter={() => scaleCursor(0)}
+                    onMouseLeave={() => scaleRevertCursor()}
+                  >
+                    <Button
+                      className="project-btn"
+                      preIcon={Github}
+                      title="Github"
+                      icon={ArrowRight}
+                    />
+                  </a>
+                </div>
               </div>
             ))}
           </div>
@@ -155,18 +284,43 @@ const projectsSections = () => {
           {/* Mobile Content */}
           <div className="mobileContent block w-full lg:hidden">
             {content.map((item, index) => (
-              <div key={index} className="flex flex-col items-center">
+              <div
+                key={index}
+                className="flex flex-col items-center gap-5"
+              >
                 <div
-                  className={`mobilePhoto w-[80vw] h-[80vw] mt-20 rounded-[6vw] ${item.color}`}
-                ></div>
-                <h1 className="text-3xl font-bold mt-4">{item.title}</h1>
-                <p className="text-lg text-center">{item.description}</p>
+                  className={`mobilePhoto w-[80vw] h-[80vw] mt-20 `}
+                >
+                  <Image src={item.image} alt="Image" className="rounded-2xl" />
+                </div>
+                <div>
+                  <h1 className="project-title  text-2xl md:text-3xl font-bold flex justify-center items-center gap-2">
+                    {item.title}
+                  </h1>
+                  <AnimatedParagraph description={item.description} />
+                </div>
+                <div className="flex justify-start items-center gap-10">
+                  {item.techStack.map((tech, i) => {
+                    const iconPath: any = techIcons[tech]; // Get image path
+                    return iconPath ? (
+                      <Image
+                        key={i}
+                        src={iconPath}
+                        alt={tech}
+                        width={40} // Adjust size as needed
+                        height={40}
+                        title={tech} // Tooltip on hover
+                        className="techIcon"
+                      />
+                    ) : null;
+                  })}
+                </div>
               </div>
             ))}
           </div>
 
           {/* Desktop Photos */}
-          <div className="desktopPhotos w-[40vw] h-[20vw] rounded-2xl relative overflow-hidden hidden lg:block">
+          <div className="desktopPhotos w-[50vw] h-[20vw] rounded-3xl relative overflow-hidden hidden lg:block">
             {content.map((item, index) => (
               <div
                 key={index}
@@ -186,44 +340,80 @@ const content = [
   {
     title: "Zentry",
     description:
-      "Red is a color often associated with strong emotions such as passion, love, and anger...Red is a color often associated with strong emotions such as passion, love, and anger...Red is a color often associated with strong emotions such as passion, love, and anger...",
-    color: "bg-red-500",
+      "A robust authentication and access control system designed for secure and seamless user management.",
     image: Image1,
+    techStack: ["Next.js", "TypeScript", "Firebase", "Tailwind CSS"],
+    features: [
+      "OAuth & JWT authentication",
+      "Role-based access control",
+      "Multi-factor authentication",
+    ],
+    github: "https://github.com/yourusername/zentry",
   },
   {
-    title: "Fizzi3d",
+    title: "Fizzi3D",
     description:
-      "Green is a color that is often associated with nature, growth, and harmony...",
+      "An interactive 3D modeling tool that allows users to create and manipulate objects in a browser-based environment.",
     image: Image2,
-    color: "bg-green-500",
+    techStack: ["Three.js", "React", "TypeScript", "Vite"],
+    features: [
+      "Drag & drop object manipulation",
+      "Custom material & texture support",
+      "Export models in various formats",
+    ],
+    github: "https://github.com/yourusername/fizzi3d",
   },
   {
     title: "Apple UI Clone",
     description:
-      "Pink is a color that is often associated with femininity, romance, and sweetness...",
+      "A pixel-perfect recreation of Apple's UI, built with modern front-end technologies for a seamless experience.",
     image: Image3,
-    color: "bg-pink-500",
+    techStack: ["React", "Tailwind CSS", "Framer Motion"],
+    features: [
+      "Smooth page transitions",
+      "Fully responsive layout",
+      "Dark mode support",
+    ],
+    github: "https://github.com/yourusername/apple-ui-clone",
   },
   {
     title: "NoteIt",
     description:
-      "Pink is a color that is often associated with femininity, romance, and sweetness...",
-    image: Image3,
-    color: "bg-pink-500",
+      "A minimalist note-taking app with real-time sync, markdown support, and cross-device accessibility.",
+    image: Image1,
+    techStack: ["Next.js", "Firebase", "Tailwind CSS", "Markdown"],
+    features: [
+      "Live collaboration",
+      "Markdown & rich text support",
+      "Cloud sync across devices",
+    ],
+    github: "https://github.com/yourusername/noteit",
   },
   {
     title: "TrackWise",
     description:
-      "Pink is a color that is often associated with femininity, romance, and sweetness...",
-    image: Image3,
-    color: "bg-pink-500",
+      "A smart task and habit tracker designed to boost productivity through insightful analytics and reminders.",
+    image: Image2,
+    techStack: ["React", "Redux", "Node.js", "MongoDB"],
+    features: [
+      "Task scheduling & reminders",
+      "Progress tracking & analytics",
+      "Customizable goal setting",
+    ],
+    github: "https://github.com/yourusername/trackwise",
   },
   {
     title: "Public Chat App",
     description:
-      "Pink is a color that is often associated with femininity, romance, and sweetness...",
+      "A real-time chat application supporting global conversations with end-to-end encryption and user authentication.",
     image: Image3,
-    color: "bg-pink-500",
+    techStack: ["Next.js", "Socket.io", "Firebase", "Tailwind CSS"],
+    features: [
+      "Real-time messaging",
+      "End-to-end encryption",
+      "User authentication & profile system",
+    ],
+    github: "https://github.com/yourusername/public-chat-app",
   },
 ];
 

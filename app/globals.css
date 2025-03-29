@@ -3,11 +3,11 @@
 @layer utilities {
  
   .container-layout {
-    @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden;
+    @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden ;
   }
 
   .section-layout {
-    @apply min-h-screen ;
+    @apply min-h-screen;
   }
 
   .text-responsive {
@@ -20,6 +20,10 @@
 
   .text-clamp {
     font-size: clamp(2rem, 20vw, 400px);
+  }
+
+  .text-clamp-heading {
+    font-size: clamp(2rem, 12vw, 300px);
   }
 }
 
