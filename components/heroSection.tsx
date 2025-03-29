@@ -22,9 +22,10 @@ const HeroSection = () => {
     const t1 = gsap.timeline({ defaults: { duration: 1, ease: "power2.out" } });
 
     t1.from(".title", { 
-      y: 100, 
+      y: 20, 
       opacity: 0, 
-      duration: 1,  // Smooth transition (1 second)
+      delay: 2,
+      duration: 0.4,  // Smooth transition (1 second)
       ease: "power2.out" // Eases out for a smoother effect
     })
       .from(".btnRef", { 

@@ -332,8 +332,8 @@ const projectsSections = () => {
                 </div>
                 <div className="flex justify-start items-center gap-10">
                 {item.techStack.map((Icon, i) => (
-                  <div key={i} className="w-[40px] h-[20px]  pb-7"> 
-                    <Icon className="techIcon"  width={10} height={10} /> 
+                  <div key={i} className="w-[40px] h-[20px]  pb-7 techIcon"> 
+                    <Icon width={10} height={10} /> 
                   </div>
             ))}
                 </div>
@@ -372,20 +372,11 @@ const projectsSections = () => {
                   <AnimatedParagraph description={item.description} />
                 </div>
                 <div className="flex justify-start items-center gap-10">
-                  {/* {item.techStack.map((tech, i) => {
-                    const iconPath: any = techIcons[tech]; // Get image path
-                    return iconPath ? (
-                      <Image
-                        key={i}
-                        src={iconPath}
-                        alt={tech}
-                        width={40} // Adjust size as needed
-                        height={40}
-                        title={tech} // Tooltip on hover
-                        className="techIcon"
-                      />
-                    ) : null;
-                  })} */}
+                {item.techStack.map((Icon, i) => (
+                  <div key={i} className="w-[40px] h-[20px]  pb-7"> 
+                    <Icon className="techIcon"  width={10} height={10} /> 
+                  </div>
+            ))}
                 </div>
               </div>
             ))}
