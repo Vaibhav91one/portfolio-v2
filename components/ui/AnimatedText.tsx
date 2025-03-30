@@ -29,7 +29,8 @@ const AnimatedParagraph = ({ description }: { description: string }) => {
       ease: "power2.out",
       scrollTrigger: {
         trigger: splitLines.lines,
-        start: "top 140%",
+        start: "top bottom",
+        end: "bottom center",
         scrub: true,
       },
     });

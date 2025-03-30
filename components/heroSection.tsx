@@ -13,7 +13,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
   const textRef = useRef<HTMLParagraphElement | null>(null);
-  const btnRef = useRef<HTMLButtonElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
 
   const { scaleCursor, scaleRevertCursor } = useCursor();
@@ -152,8 +151,7 @@ const HeroSection = () => {
 
         <div className="col-start-2 lg:col-start-4">
           <Button
-            ref={btnRef}
-            className="btnRef"
+            className="btnRef main-btn"
             title="SCROLL TO EXPLORE"
             icon={ArrowDown}
           />

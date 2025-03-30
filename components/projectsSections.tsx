@@ -359,10 +359,10 @@ const projectsSections = () => {
         {/* Right Content (Images) */}
         <div className="right h-auto lg:items-center w-full lg:w-1/2 lg:h-[100vh] flex flex-col justify-center relative">
           {/* Mobile Content */}
-          <div className="mobileContent block w-full lg:hidden">
+          <div className="mobileContent block w-full lg:hidden min-h-screen mb-10 pb-10">
             {content.map((item, index) => (
               <div key={index} className="flex flex-col items-center gap-5">
-                <div className={`mobilePhoto w-[80vw] h-[80vw] mt-20 `}>
+                <div className={`mobilePhoto w-[80vw] h-[70vw] mt-20 `}>
                   <Image src={item.image} alt="Image" className="rounded-2xl" />
                 </div>
                 <div>
@@ -383,11 +383,11 @@ const projectsSections = () => {
           </div>
 
           {/* Desktop Photos */}
-          <div className="desktopPhotos w-[50vw] h-[20vw] rounded-3xl relative overflow-hidden hidden lg:block">
+          <div className="desktopPhotos w-[40vw] h-[20vw] rounded-3xl relative overflow-hidden hidden lg:block">
             {content.map((item, index) => (
               <div
                 key={index}
-                className={`desktopPhoto hidden lg:block absolute inset-0 w-full h-full`}
+                className={`desktopPhoto hidden lg:block absolute  w-full h-full`}
               >
                 <Image src={item.image} alt="Image" />
               </div>

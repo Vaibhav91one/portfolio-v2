@@ -20,7 +20,7 @@ export default function Home() {
           {/* <NavigationBar/> */}
           <Hero />
           <Projects />
-          {/* <About/> */}
+          <About/>
           {/* <Footer/> */}
         </main>
       )}

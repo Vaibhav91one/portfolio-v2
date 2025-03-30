@@ -25,6 +25,19 @@
   .text-clamp-heading {
     font-size: clamp(2rem, 12vw, 300px);
   }
+
+  .text-clamp-about {
+    font-size: clamp(2rem, 8vw, 300px);
+  }
+
+  .text-clamp-xl {
+    font-size: clamp(1.75rem, 2vw, 2.5rem); /* Clamps between 1.75rem (28px) and 2.5rem (40px) */
+    line-height: clamp(2.5rem, 5vw, 3rem); /* Clamps line height between 2.5rem (40px) and 3rem (48px) */
+  }
+
+  .main-btn {
+    @apply px-5 py-6 w-[15rem] flex justify-center items-center; 
+  }
 }
 
 
@@ -45,4 +58,17 @@ body {
   background: var(--background);
   font-family: Helvetica, Arial, sans-serif;
   cursor: default;
+}
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 6s linear infinite;
 }
