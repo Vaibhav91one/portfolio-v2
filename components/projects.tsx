@@ -208,7 +208,7 @@ const ProjectsFramer = (props: Props) => {
               );
             })}
           </div>
-          <div className="modalSection fixed top-100 right-0 ">
+          <div className="modalSection fixed top-85 right-0 ">
             <Modal modal={modal} projects={ProjectsFramer} />
           </div>
         </div>

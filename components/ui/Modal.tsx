@@ -76,7 +76,7 @@ const Modal: React.FC<ModalProps> = ({ modal, projects }) => {
         variants={scaleAnimation}
         initial="initial"
         animate={active ? "enter" : "closed"} // Fix: Use "enter" instead of "open"
-        className="h-[250px] w-[400px] sticky top-0 overflow-hidden flex items-center justify-center pointer-events-none"
+        className="h-[400px] w-[500px] sticky top-0 overflow-hidden flex items-center justify-center pointer-events-none"
       >
         <div
           style={{ top: `${index * -100}%` }}
@@ -90,8 +90,6 @@ const Modal: React.FC<ModalProps> = ({ modal, projects }) => {
             >
               <Image
                 src={project.src}
-                width={500}
-                height={500} // Fix: Set a proper height
                 alt={project.title} // Fix: Improve accessibility
                 className="h-auto pointer-events-none rounded-xl"
               />

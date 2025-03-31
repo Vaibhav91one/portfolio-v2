@@ -17,7 +17,7 @@ const Project = ({ index, title, setModal, className }: Props) => {
   return (
     <div
       className={clsx(
-        "group flex w-full justify-between items-center px-[100px] py-[50px] border-t border-gray-300 cursor-pointer transition-opacity duration-200 last:border-b",
+        "group flex w-full justify-between items-center px-[100px] border-t border-gray-300 cursor-pointer transition-opacity duration-200 last:border-b",
         className // Allows additional classes to be dynamically added
       )}
       onMouseEnter={() => {
