@@ -11,6 +11,7 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@svgr/webpack": "^8.1.0",
+    "clsx": "^2.1.1",
     "devicon": "^2.16.0",
     "framer-motion": "^12.6.2",
     "gsap": "^3.12.7",

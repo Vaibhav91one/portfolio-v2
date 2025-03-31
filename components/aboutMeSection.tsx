@@ -128,7 +128,7 @@ const aboutMeSection = (props: Props) => {
               onMouseLeave={() => scaleRevertCursor()}
               className="titleAbout text-clamp-about"
             >
-              <span className="animate-slow-spin inline-block">✺</span> ABOUT ME
+              <span className="animate-slow-spin inline-block">✺</span> <span className="text-nowrap">ABOUT </span> ME
             </h1>
           </div>
           <div className="flex flex-col items-start justify-center gap-15">

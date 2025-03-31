@@ -91,22 +91,18 @@ const ProjectsFramer = (props: Props) => {
   const { scaleCursor, scaleRevertCursor } = useCursor();
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const textRef = useRef<HTMLHeadingElement | null>(null);
-  const ModalRef = useRef<HTMLDivElement | null> (null);
 
-
-  useGSAP(()=> {
-
-    gsap.to(ModalRef.current, {
-      y:-100,
-      scrollTrigger:{
-        trigger: ModalRef.current,
-        start:"bottom center",
-        end: "center top",
-        scrub: true,
-      }
-    })
-
-  }, [])
+  useGSAP(() => {
+    gsap.to(".modalSection", {
+      y: -100,
+      opacity: 0,
+      scrollTrigger: {
+        trigger: ".project-section",
+        start: "bottom center",
+        toggleActions: "play none none reverse",
+      },
+    });
+  }, []);
 
   useGSAP(() => {
     if (!headingRef.current) return;
@@ -125,7 +121,6 @@ const ProjectsFramer = (props: Props) => {
         start: "top 80%",
         end: "top 20%",
         scrub: true,
-        // toggleActions: "play none none reverse",
       },
     });
   }, []);
@@ -180,11 +175,9 @@ const ProjectsFramer = (props: Props) => {
     };
   }, [currentQuote]);
 
-  
-
   return (
     <>
-      <div className="project-section overflow-hidden">
+      <div className="overflow-hidden">
         <div className="overflow-hidden whitespace-nowrap w-full pb-20">
           <h1
             ref={headingRef}
@@ -202,7 +195,7 @@ const ProjectsFramer = (props: Props) => {
           </h1>
         </div>
         <div className="flex min-h-screen items-center justify-center relative ">
-          <div className="w-full flex flex-col items-center justify-center">
+          <div className="project-section w-full flex flex-col items-center justify-center">
             {ProjectsFramer.map((project, index) => {
               return (
                 <Project
@@ -210,11 +203,12 @@ const ProjectsFramer = (props: Props) => {
                   title={project.title}
                   setModal={setModal}
                   key={index}
+                  className="modalSection"
                 />
               );
             })}
           </div>
-          <div className="fixed top-100 right-0 ">
+          <div className="modalSection fixed top-100 right-0 ">
             <Modal modal={modal} projects={ProjectsFramer} />
           </div>
         </div>

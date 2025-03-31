@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 
 type Modal = {
@@ -9,12 +10,16 @@ type Props = {
   index: number;
   title: string;
   setModal: ({ active, index }: Modal) => void;
+  className?: string;
 };
 
-const Project = ({ index, title, setModal }: Props) => {
+const Project = ({ index, title, setModal, className }: Props) => {
   return (
     <div
-      className="group flex w-full justify-between items-center px-[100px] py-[50px] border-t border-gray-300 cursor-pointer transition-all duration-200 last:border-b hover:opacity-50"
+      className={clsx(
+        "group flex w-full justify-between items-center px-[100px] py-[50px] border-t border-gray-300 cursor-pointer transition-opacity duration-200 last:border-b",
+        className // Allows additional classes to be dynamically added
+      )}
       onMouseEnter={() => {
         setModal({ active: true, index });
       }}
@@ -22,13 +27,15 @@ const Project = ({ index, title, setModal }: Props) => {
         setModal({ active: false, index });
       }}
     >
-      <h2 className="text-[60px] m-0 font-normal transition-all duration-400 group-hover:-translate-x-2">
-        {title}
-      </h2>
+      <div className="hover:opacity-50 flex w-full justify-between items-center transition-opacity duration-200 ">
+        <h2 className="text-[60px] m-0 font-normal transition-all duration-400 group-hover:-translate-x-2">
+          {title}
+        </h2>
 
-      <p className="font-light transition-all duration-400 group-hover:translate-x-2">
-        Design & Development
-      </p>
+        <p className="font-light transition-all duration-400 group-hover:translate-x-2">
+          Design & Development
+        </p>
+      </div>
     </div>
   );
 };
