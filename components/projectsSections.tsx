@@ -221,7 +221,8 @@ const projectsSections = () => {
             scrollTrigger: {
               trigger: section,
               start: "top 80%",
-              toggleActions: "play none none reverse",
+              end: "bottom center",
+              scrub: true,
             },
           });
 
@@ -314,7 +315,7 @@ const projectsSections = () => {
       </div>
       <div className="gallery flex justify-between gap-10">
         {/* Left Content (Text) */}
-        <div className="left hidden lg:block w-full lg:w-1/3 flex justify-center">
+        <div className="left hidden lg:block w-full lg:w-1/2 flex justify-center">
           <div className="desktopContent w-full">
             {content.map((item, index) => (
               <div

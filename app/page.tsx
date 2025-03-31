@@ -16,13 +16,15 @@ export default function Home() {
       {loading ? (
         <Preloader setLoading={setLoading} />
       ) : (
-        <main className="container-layout">
-          {/* <NavigationBar/> */}
-          <Hero />
-          <Projects />
-          <About/>
-          {/* <Footer/> */}
-        </main>
+        <div className="flex flex-col min-h-screen">
+          <main className="container-layout  relative z-10">
+            <NavigationBar />
+            <Hero />
+            <Projects />
+            <About />
+          </main>
+          <Footer />
+        </div>
       )}
     </>
   );

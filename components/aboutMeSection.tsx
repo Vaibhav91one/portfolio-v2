@@ -25,18 +25,19 @@ const aboutMeSection = (props: Props) => {
     const t2 = gsap.timeline();
 
     if (sectionRef.current) {
-
-       // **Rotate the ✺ icon using class selector**
-       const rotatingIcon = sectionRef.current.querySelector(".rotate-icon") as HTMLElement | null;
-      console.log(rotatingIcon)
-       if (rotatingIcon) {
-         gsap.to(rotatingIcon, {
-           rotation: 360,
-           repeat: -1, // Infinite rotation
-           duration: 3, // One full rotation every 3 seconds
-           ease: "linear",
-         });
-       }
+      // **Rotate the ✺ icon using class selector**
+      const rotatingIcon = sectionRef.current.querySelector(
+        ".rotate-icon"
+      ) as HTMLElement | null;
+      console.log(rotatingIcon);
+      if (rotatingIcon) {
+        gsap.to(rotatingIcon, {
+          rotation: 360,
+          repeat: -1, // Infinite rotation
+          duration: 3, // One full rotation every 3 seconds
+          ease: "linear",
+        });
+      }
 
       // Select the h1 element inside sectionRef safely
       const titleElement = sectionRef.current.querySelector(
@@ -79,7 +80,7 @@ const aboutMeSection = (props: Props) => {
 
       // GSAP animation for lines (staggered fade-in effect)
       t2.from(splitLines.lines, {
-        opacity: 0,
+        opacity: 0.3,
         y: 100,
         delay: 1, // Delay before animation starts
         stagger: 0.5,
@@ -99,14 +100,29 @@ const aboutMeSection = (props: Props) => {
     }
   }, []);
 
+
+  useGSAP(()=> {
+
+    gsap.to(sectionRef.current, {
+      y: -50,
+      ease: 'power1.inOut',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'center center',
+        // end: 'bottom center',
+        scrub: true,
+      }
+    })
+  })
+
   return (
     <>
       <div
         ref={sectionRef}
-        className="min-h-screen flex items-center justify-center"
+        className="min-h-[90vh] flex items-center justify-center"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 gap-5 lg:gap-1">
-          <div className="flex items-start justify-center ">
+          <div className="flex items-center justify-center text-center">
             <h1
               onMouseEnter={() => scaleCursor(8)}
               onMouseLeave={() => scaleRevertCursor()}
@@ -136,7 +152,7 @@ const aboutMeSection = (props: Props) => {
               solutions.
             </div>
             <Button
-              className="main-btn .btnRef"
+              className="main-btn  .btnRef"
               title="MORE ABOUT ME"
               icon={ArrowRight}
             />

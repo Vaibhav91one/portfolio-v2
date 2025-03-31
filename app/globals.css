@@ -3,7 +3,7 @@
 @layer utilities {
  
   .container-layout {
-    @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden ;
+    @apply max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden ;
   }
 
   .section-layout {
@@ -27,17 +27,18 @@
   }
 
   .text-clamp-about {
-    font-size: clamp(2rem, 8vw, 300px);
+    font-size: clamp(2rem, 9vw, 300px);
   }
 
   .text-clamp-xl {
-    font-size: clamp(1.75rem, 2vw, 2.5rem); /* Clamps between 1.75rem (28px) and 2.5rem (40px) */
+    font-size: clamp(1.6rem, 0.5vw, 2.5rem); /* Clamps between 1.75rem (28px) and 2.5rem (40px) */
     line-height: clamp(2.5rem, 5vw, 3rem); /* Clamps line height between 2.5rem (40px) and 3rem (48px) */
   }
 
   .main-btn {
     @apply px-5 py-6 w-[15rem] flex justify-center items-center; 
   }
+
 }
 
 
@@ -52,6 +53,8 @@
   :root {
     --background: #f5f5f5;
   }
+
+  
 }
 
 body {
@@ -59,6 +62,8 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   cursor: default;
 }
+
+
 
 @keyframes slow-spin {
   from {
@@ -72,3 +77,4 @@ body {
 .animate-slow-spin {
   animation: slow-spin 6s linear infinite;
 }
+
