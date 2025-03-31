@@ -23,7 +23,7 @@
   }
 
   .text-clamp-heading {
-    font-size: clamp(2rem, 12vw, 300px);
+    font-size: clamp(2rem, 10vw, 300px);
   }
 
   .text-clamp-about {

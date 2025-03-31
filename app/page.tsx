@@ -7,6 +7,8 @@ import Footer from "@/components/footer";
 import NavigationBar from "@/components/NavigationBar";
 import { useState } from "react";
 import Preloader from "@/components/ui/Preloader";
+import Project from "@/components/ui/Project";
+import ProjectsFramer from "@/components/projects";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ export default function Home() {
           <main className="container-layout  relative z-10">
             <NavigationBar />
             <Hero />
-            <Projects />
+            <ProjectsFramer/>
             <About />
           </main>
           <Footer />

@@ -119,7 +119,7 @@ const aboutMeSection = (props: Props) => {
     <>
       <div
         ref={sectionRef}
-        className="min-h-[90vh] flex items-center justify-center"
+        className="min-h-screen flex items-center justify-center"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 gap-5 lg:gap-1">
           <div className="flex items-center justify-center text-center">

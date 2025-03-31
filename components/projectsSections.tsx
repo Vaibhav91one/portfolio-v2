@@ -166,7 +166,7 @@ const projectsSections = () => {
       ".desktopContentSection:not(:first-child)"
     );
 
-    gsap.set(photos, { yPercent: 101 });
+    gsap.set(photos, { clipPath: "inset(100% 0 0 0)", scale: 0 });
 
     let mm = gsap.matchMedia();
 
@@ -186,9 +186,10 @@ const projectsSections = () => {
           start: "top 80%",
           end: "top 50%",
           animation: gsap.to(photos[index]!, {
-            yPercent: 0,
+            clipPath: "inset(0% 0 0 0)", // Reveals the image
+            scale: 1, // Zooms out to normal size
             ease: "power2.out",
-            duration: 0.5,
+            duration: 0.8,
           }),
           scrub: true,
         });
@@ -323,10 +324,10 @@ const projectsSections = () => {
                   if (el) sectionsRef.current[index] = el; // Assign without returning anything
                 }}
                 key={index}
-                className="desktopContentSection min-h-screen flex flex-col justify-center gap-10"
+                className="desktopContentSection min-h-screen flex flex-col justify-center gap-10 items-center"
               >
                 <div>
-                  <h1 className="project-title text-4xl md:text-3xl font-bold flex justify-start items-center gap-2">
+                  <h1 className="project-title text-4xl md:text-3xl font-bold flex justify-center items-center gap-2">
                     {item.title}
                   </h1>
                   <AnimatedParagraph description={item.description} />
@@ -384,7 +385,7 @@ const projectsSections = () => {
           </div>
 
           {/* Desktop Photos */}
-          <div className="desktopPhotos w-[40vw] h-[20vw] rounded-3xl relative overflow-hidden hidden lg:block">
+          <div className="desktopPhotos w-[40vw] h-[20vw] rounded-2xl relative overflow-hidden hidden lg:block">
             {content.map((item, index) => (
               <div
                 key={index}

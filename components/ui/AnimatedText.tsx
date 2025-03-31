@@ -24,7 +24,7 @@ const AnimatedParagraph = ({ description }: { description: string }) => {
     // Staggered fade-in effect for lines
     gsap.to(splitLines.lines, {
       opacity: 1,
-      x: 0,
+      y: 20,
       stagger: 0.2,
       ease: "power2.out",
       scrollTrigger: {
