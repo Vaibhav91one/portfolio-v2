@@ -14,65 +14,12 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Props = {};
-
-const ProjectsFramer = (props: Props) => {
-  const ProjectsFramer = [
-    {
-      title: "C2 Montreal",
-
-      src: Image1,
-
-      color: "#000000",
-    },
-
-    {
-      title: "Office Studio",
-
-      src: Image2,
-
-      color: "#8C8C8C",
-    },
-
-    {
-      title: "Locomotive",
-
-      src: Image3,
-
-      color: "#EFE8D3",
-    },
-
-    {
-      title: "C2 Montreal",
-
-      src: Image1,
-
-      color: "#000000",
-    },
-
-    {
-      title: "Office Studio",
-
-      src: Image2,
-
-      color: "#8C8C8C",
-    },
-
-    {
-      title: "Locomotive",
-
-      src: Image3,
-
-      color: "#EFE8D3",
-    },
-
-    {
-      title: "Silencio",
-
-      src: Image1,
-
-      color: "#706D63",
-    },
+const ProjectsFramer = () => {
+  const projects = [
+    { title: "C2 Montreal", src: Image1, color: "#000000" },
+    { title: "Office Studio", src: Image2, color: "#8C8C8C" },
+    { title: "Locomotive", src: Image3, color: "#EFE8D3" },
+    { title: "Silencio", src: Image1, color: "#706D63" },
   ];
 
   const quotes = [
@@ -86,7 +33,6 @@ const ProjectsFramer = (props: Props) => {
   ];
 
   const [currentQuote, setCurrentQuote] = useState(0);
-
   const [modal, setModal] = useState({ active: false, index: 0 });
   const { scaleCursor, scaleRevertCursor } = useCursor();
   const headingRef = useRef<HTMLHeadingElement | null>(null);
@@ -106,7 +52,6 @@ const ProjectsFramer = (props: Props) => {
 
   useGSAP(() => {
     if (!headingRef.current) return;
-
     const splitText = new SplitType(headingRef.current, { types: "chars" });
 
     gsap.from(splitText.chars, {
@@ -149,13 +94,13 @@ const ProjectsFramer = (props: Props) => {
 
     tl.to(textRef.current, {
       opacity: 1,
-      scale: 1.2, // Slight zoom-in effect
+      scale: 1.2,
       y: 0,
       duration: 0.5,
       ease: "power2.out",
     }).to(textRef.current, {
       opacity: 0,
-      scale: 0.8, // Shrink effect
+      scale: 0.8,
       y: -30,
       duration: 0.5,
       ease: "power2.out",
@@ -171,49 +116,40 @@ const ProjectsFramer = (props: Props) => {
     });
 
     return () => {
-      tl.kill(); // Cleanup function correctly kills the timeline
+      tl.kill();
     };
   }, [currentQuote]);
 
   return (
-    <>
-      <div className="overflow-hidden">
-        <div className="overflow-hidden whitespace-nowrap w-full pb-20">
-          <h1
-            ref={headingRef}
-            onMouseEnter={() => scaleCursor(8)}
-            onMouseLeave={() => scaleRevertCursor()}
-            className=" heading text-clamp-heading italic text-center"
-          >
-            Projects
-          </h1>
-          <h1
-            ref={textRef}
-            className="animated-text text-xs lg:text-xl text-center text-wrap text-gray-500"
-          >
-            {quotes[currentQuote]}
-          </h1>
-        </div>
-        <div className="flex min-h-screen items-center justify-center relative ">
-          <div className="project-section w-full flex flex-col items-center justify-center">
-            {ProjectsFramer.map((project, index) => {
-              return (
-                <Project
-                  index={index}
-                  title={project.title}
-                  setModal={setModal}
-                  key={index}
-                  className="modalSection"
-                />
-              );
-            })}
-          </div>
-          <div className="modalSection fixed top-85 right-0 ">
-            <Modal modal={modal} projects={ProjectsFramer} />
-          </div>
-        </div>
+    <div className="mx-auto overflow-hidden  sm:px-6 lg:px-12 max-w-screen-xl">
+      <div className="whitespace-nowrap w-full pb-10 sm:pb-16 lg:pb-20">
+        <h1
+          ref={headingRef}
+          onMouseEnter={() => scaleCursor(8)}
+          onMouseLeave={() => scaleRevertCursor()}
+          className="heading text-clamp-heading italic text-center"
+        >
+          Projects
+        </h1>
+        <h1
+          ref={textRef}
+          className="animated-text text-xs sm:text-sm md:text-lg lg:text-xl text-center text-gray-500 max-w-[90%] md:max-w-[75%] lg:max-w-[50%] mx-auto"
+        >
+          {quotes[currentQuote]}
+        </h1>
       </div>
-    </>
+      <div className="flex flex-col items-center justify-center space-y-6">
+        {projects.map((project, index) => (
+          <Project
+            index={index}
+            title={project.title}
+            setModal={setModal}
+            key={index}
+          />
+        ))}
+      </div>
+      <Modal modal={modal} projects={projects} />
+    </div>
   );
 };
 

@@ -131,7 +131,7 @@ const aboutMeSection = (props: Props) => {
               <span className="animate-slow-spin inline-block">✺</span> <span className="text-nowrap">ABOUT </span> ME
             </h1>
           </div>
-          <div className="flex flex-col items-start justify-center gap-15">
+          <div className="flex flex-col items-start justify-center gap-15 px-10 lg:px-0">
             <div ref={textRef} className="text-clamp-xl">
               I approach all things design with a distinct blend
               <span>

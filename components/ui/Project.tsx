@@ -17,7 +17,7 @@ const Project = ({ index, title, setModal, className }: Props) => {
   return (
     <div
       className={clsx(
-        "group flex w-full justify-between items-center px-[100px] border-t border-gray-300 cursor-pointer transition-opacity duration-200 last:border-b",
+        "group flex w-full justify-between items-center border-t px-6 md:px-12 lg:px-[100] py-6 md:py-10 lg:py-[50] border-gray-300 cursor-pointer transition-all duration-200 hover:opacity-50",
         className // Allows additional classes to be dynamically added
       )}
       onMouseEnter={() => {
@@ -27,12 +27,12 @@ const Project = ({ index, title, setModal, className }: Props) => {
         setModal({ active: false, index });
       }}
     >
-      <div className="hover:opacity-50 flex w-full justify-between items-center transition-opacity duration-200 ">
-        <h2 className="text-[60px] m-0 font-normal transition-all duration-400 group-hover:-translate-x-2">
+      <div className="hover:opacity-50 w-full flex flex-col sm:flex-row justify-between items-center transition-opacity duration-200">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[40px] font-normal transition-all duration-400 group-hover:-translate-x-2">
           {title}
         </h2>
 
-        <p className="font-light transition-all duration-400 group-hover:translate-x-2">
+        <p className="text-sm sm:text-base font-light transition-all duration-400 group-hover:translate-x-2">
           Design & Development
         </p>
       </div>
