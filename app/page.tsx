@@ -20,7 +20,7 @@ export default function Home() {
       ) : (
         <div className="flex flex-col min-h-screen">
           <main className="container-layout relative overflow-hidden">
-            <NavigationBar />
+            {/* <NavigationBar /> */}
             <Hero />
             <ProjectsFramer/>
             <About />

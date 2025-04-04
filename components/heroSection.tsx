@@ -2,12 +2,14 @@
 
 import React, { useEffect, useRef } from "react";
 import Button from "./ui/Button";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, Globe } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import SplitType from "split-type";
 import { useCursor } from "./ui/Cursor";
+import Image from "next/image";
+import ProfilePicture from "../public/assets/Images/no Bg.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,26 +17,55 @@ const HeroSection = () => {
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
 
-  const { scaleCursor, scaleRevertCursor } = useCursor();
+  const firstText = useRef(null);
+  const secondText = useRef(null);
+  const slider = useRef(null);
+  let xPercent = 0;
+  let direction = -1;
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to(slider.current, {
+      scrollTrigger: {
+        trigger: document.documentElement,
+        scrub: 0.25,
+        start: 0,
+        end: window.innerHeight,
+        onUpdate: (e) => (direction = e.direction * -1),
+      },
+      x: "-500px",
+    });
+    requestAnimationFrame(animate);
+  }, []);
+
+  const animate = () => {
+    if (xPercent < -100) {
+      xPercent = 0;
+    } else if (xPercent > 0) {
+      xPercent = -100;
+    }
+    gsap.set(firstText.current, { xPercent: xPercent });
+    gsap.set(secondText.current, { xPercent: xPercent });
+    requestAnimationFrame(animate);
+    xPercent += 0.02 * direction;
+  };
 
   useGSAP(() => {
     const t1 = gsap.timeline({ defaults: { duration: 1, ease: "power2.out" } });
 
-    t1.from(".title", { 
-      y: 20, 
-      opacity: 0, 
+    t1.from(".title", {
+      y: 20,
+      opacity: 0,
       delay: 2,
-      duration: 0.4,  // Smooth transition (1 second)
-      ease: "power2.out" // Eases out for a smoother effect
-    })
-      .from(".btnRef", { 
-        x: 50, 
-        opacity: 0, 
-        duration: 0.8, // Slightly faster (0.8 seconds)
-        ease: "power2.out", 
-        delay: 0.2 // Adds a slight delay after title animation
-      });
-    
+      duration: 0.4, // Smooth transition (1 second)
+      ease: "power2.out", // Eases out for a smoother effect
+    }).from(".btnRef", {
+      x: 50,
+      opacity: 0,
+      duration: 0.8, // Slightly faster (0.8 seconds)
+      ease: "power2.out",
+      delay: 0.2, // Adds a slight delay after title animation
+    });
 
     // Parallax effects
     if (heroRef.current) {
@@ -65,7 +96,6 @@ const HeroSection = () => {
       });
     }
   });
-
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -125,39 +155,54 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div
-      ref={heroRef}
-      className="relative min-h-screen flex flex-col justify-center lg:justify-evenly items-center"
-    >
-      <div className="flex justify-center items-center">
-        <h2
-          className="title text-clamp"
-          onMouseEnter={() => scaleCursor(10)}
-          onMouseLeave={() => scaleRevertCursor()}
-        >
-          Vaibhav
-        </h2>
-      </div>
-
-      <div className="grid xs:grid-cols-1 lg:grid-cols-5 gap-10 p-4">
-        {/* Content Box - Responsive Width */}
-        <div className="col-span-2">
-          <p ref={textRef} className="text-[15px] opacity-0">
-            Hello there — I'm Vaibhav, an agile designer hopping across digital
-            and physical worlds. Currently creating impactful visual experiences
-            @ TGC EG.
-          </p>
-        </div>
-
-        <div className="col-start-2 lg:col-start-4">
-          <Button
-            className="btnRef main-btn"
-            title="SCROLL TO EXPLORE"
-            icon={ArrowDown}
+    <>
+      <div className="relative flex justify-center max-h-screen items-center overflow-hidden bg-gray-500">
+        <div>
+          <Image
+            src={ProfilePicture}
+            alt="Your Photo"
+            width={500}
+            height={500}
+            className="object-cover -translate-y-20"
           />
         </div>
+        <div
+          className="absolute right-20 flex justify-center items-start
+         flex-col text-3xl gap-2"
+        >
+          <p className="font-regular text-white">Software Developer</p>
+          <p className="font-regular text-white">Freelancer</p>
+        </div>
+
+        <div
+          className="absolute left-0 rounded-l-md rounded-r-full flex justify-center items-center
+          text-3xl gap-12 bg-black p-5"
+        >
+          <p className="text-white w-30">Located in India</p>
+
+          <div className="bg-gray-400 rounded-full">
+            <Globe className="text-white rounded-full m-4 animate-rotate-slow" size={40} />
+          </div>
+        </div>
       </div>
-    </div>
+      <div className="absolute top-screen-minus-350">
+        <div ref={slider} className="relative whitespace-nowrap">
+          <p
+            ref={firstText}
+            className="relative m-0 text-white text-[200px] font-medium pr-[50px]"
+          >
+            Vaibhav Tomar -
+          </p>
+
+          <p
+            ref={secondText}
+            className="absolute left-[100%] top-0 m-0 text-white text-[200px] font-medium pr-[50px]"
+          >
+            Vaibhav Tomar -
+          </p>
+        </div>
+      </div>
+    </>
   );
 };
 

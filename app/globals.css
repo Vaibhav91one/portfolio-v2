@@ -31,12 +31,20 @@
   }
 
   .text-clamp-xl {
-    font-size: clamp(1.6rem, 1.5vw, 3.5rem);
+    font-size: clamp(1.4rem,1vw, 3.5rem);
     line-height: clamp(2.5rem,5vw, 3rem); 
   }
 
   .main-btn {
     @apply px-5 py-6 w-[15rem] flex justify-center items-center; 
+  }
+
+  .top-screen-minus-350 {
+    top: calc(100vh - 280px);
+  }
+
+  .animate-rotate-slow {
+    animation: spin 10s linear infinite;
   }
 
 }
