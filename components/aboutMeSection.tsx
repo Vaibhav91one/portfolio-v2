@@ -11,6 +11,7 @@ import { useGSAP } from "@gsap/react";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import gsap from "gsap";
 import SplitType from "split-type";
+import MagneticButton from "./ui/Magnetic";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -150,6 +151,7 @@ const aboutMeSection = (props: Props) => {
               </span>{" "}
               solutions.
             </div>
+
             <Button
               className="main-btn  .btnRef"
               title="MORE ABOUT ME"
