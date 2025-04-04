@@ -40,8 +40,13 @@
   }
 
   .top-screen-minus-350 {
-    top: calc(100vh - 280px);
+    top: calc(100vh - 300px);
   }
+
+  /* .top-screen-minus-350 {
+    top: calc(100vh - 200px);
+  } */
+
 
   .animate-rotate-slow {
     animation: spin 10s linear infinite;
@@ -69,6 +74,19 @@ body {
   background: var(--background);
   font-family: Helvetica, Arial, sans-serif;
   cursor: default;
+}
+
+/* styles/globals.css */
+
+/* Hide scrollbar but keep scroll functionality */
+html, body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
 }
 
 

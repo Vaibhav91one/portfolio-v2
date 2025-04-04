@@ -23,12 +23,19 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
     "ようこそ", // Japanese
     "환영합니다", // Korean
     "مرحبا", // Arabic
-    "स्वागत है", // Hindi 
-];
+    "स्वागत है", // Hindi
+  ];
 
   useEffect(() => {
+    // Disable scrolling
+    document.body.style.overflow = "hidden";
+
     const tl = gsap.timeline({
-      onComplete: () => setLoading(false), // Hide preloader after animation
+      onComplete: () => {
+        setLoading(false);
+        // Re-enable scrolling after animation
+        document.body.style.overflow = "";
+      },
     });
 
     // Animate preloader opacity in
@@ -36,24 +43,32 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
 
     let delay = 0;
 
-    // Loop through each message and animate
     messages.forEach((msg, i) => {
       tl.to(textRef.current, {
         opacity: 0,
         duration: 0.5,
-        onComplete: () => setIndex(i), // Change text after fade-out
+        onComplete: () => setIndex(i),
       })
         .to(textRef.current, { opacity: 1, duration: 0.5 })
-        .delay(0.2); // Wait before changing text
-      delay += 0.5; // Delay for next text
+        .delay(0.2);
+
+      delay += 0.5;
     });
 
-    // Fade out preloader after all messages
-    tl.to(preloaderRef.current, {y:"-100%", duration: 1, delay: 1, borderBottomLeftRadius: "50%",
-      borderBottomRightRadius: "50%", ease: "power2.inOut" });
+    // Final exit animation
+    tl.to(preloaderRef.current, {
+      y: "-100%",
+      duration: 1,
+      delay: 1,
+      borderBottomLeftRadius: "50%",
+      borderBottomRightRadius: "50%",
+      ease: "power2.inOut",
+    });
 
     return () => {
-      tl.kill(); // Cleanup animation
+      tl.kill();
+      // Cleanup: make sure scrolling is enabled if unmounted early
+      document.body.style.overflow = "";
     };
   }, [setLoading]);
 
