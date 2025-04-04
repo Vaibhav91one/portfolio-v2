@@ -70,22 +70,7 @@ const ProjectsFramer = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (!headingRef.current) return;
 
-    ScrollTrigger.create({
-      trigger: headingRef.current,
-      start: "top top",
-      end: "bottom top",
-      scrub: 1,
-      animation: gsap.to(headingRef.current, {
-        y: "-20%",
-        scale: 0.8,
-        opacity: 0,
-        ease: "power1.out",
-      }),
-    });
-  }, []);
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -121,8 +106,8 @@ const ProjectsFramer = () => {
   }, [currentQuote]);
 
   return (
-    <div className="overflow-hidden min-h-screen mt-50">
-      <div className="whitespace-nowrap w-full pb-10 sm:pb-16 lg:pb-20">
+    <div className="overflow-hidden min-h-screen">
+      <div className="w-full pb-10 sm:pb-16 lg:pb-20">
         <h1
           ref={headingRef}
           onMouseEnter={() => scaleCursor(8)}

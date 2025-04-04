@@ -131,24 +131,24 @@ const aboutMeSection = (props: Props) => {
             </h1>
           </div>
           <div className="flex flex-col items-start justify-center gap-15 px-10 lg:px-0">
-            <div
-              ref={textRef}
-              className="line-clamp-4 text-clamp-xl leading-relaxed overflow-hidden"
-            >
-              I approach all things design with a distinct blend&nbsp;
-              <span className="inline-block align-middle">
-                <DNA />
-              </span>
-              &nbsp;of play and minimalism, seamlessly&nbsp;
-              <span className="inline-block align-middle">
-                <Compass />
-              </span>
-              &nbsp;navigating design challenges and delivering functional +
-              delightful&nbsp;
-              <span className="inline-block align-middle">
-                <Star />
-              </span>
-              &nbsp;solutions.
+          <div ref={textRef} className="text-clamp-xl">
+              I approach all things design with a distinct blend
+              <span>
+                {" "}
+                <DNA />{" "}
+              </span>{" "}
+              of play and minimalism, seamlessly{" "}
+              <span>
+                {" "}
+                <Compass />{" "}
+              </span>{" "}
+              navigating design challenges and delivering functional +
+              delightful{" "}
+              <span>
+                {" "}
+                <Star />{" "}
+              </span>{" "}
+              solutions.
             </div>
             <Button
               className="main-btn  .btnRef"

@@ -76,7 +76,6 @@ const HeroSection = () => {
         scrub: 1,
         animation: gsap.to(heroRef.current, {
           y: "-20%",
-          scale: 0.8,
           opacity: 0,
           ease: "none",
         }),
@@ -156,7 +155,9 @@ const HeroSection = () => {
 
   return (
     <>
-      <div className="relative flex justify-center max-h-screen items-center overflow-hidden bg-gray-500">
+    <div ref={heroRef} className="relative">
+      <div  className="relative flex justify-center max-h-screen items-center overflow-hidden bg-gray-500">
+      
         <div>
           <Image
             src={ProfilePicture}
@@ -202,6 +203,7 @@ const HeroSection = () => {
           </p>
         </div>
       </div>
+    </div>
     </>
   );
 };
