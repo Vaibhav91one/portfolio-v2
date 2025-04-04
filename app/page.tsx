@@ -7,7 +7,6 @@ import NavigationBar from "@/components/NavigationBar";
 import { useEffect, useState } from "react";
 import Preloader from "@/components/ui/Preloader";
 import ProjectsFramer from "@/components/projects";
-import { div } from "framer-motion/client";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -34,7 +33,7 @@ export default function Home() {
               <About  />
             </>
           </main>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       )}
     </>
