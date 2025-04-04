@@ -44,12 +44,13 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
         onComplete: () => setIndex(i), // Change text after fade-out
       })
         .to(textRef.current, { opacity: 1, duration: 0.5 })
-        .delay(1); // Wait before changing text
-      delay += 1.5; // Delay for next text
+        .delay(0.2); // Wait before changing text
+      delay += 0.5; // Delay for next text
     });
 
     // Fade out preloader after all messages
-    tl.to(preloaderRef.current, { opacity: 0, duration: 1, delay: 1 });
+    tl.to(preloaderRef.current, {y:"-100%", duration: 1, delay: 1, borderBottomLeftRadius: "50%",
+      borderBottomRightRadius: "50%", ease: "power2.inOut" });
 
     return () => {
       tl.kill(); // Cleanup animation

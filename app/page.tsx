@@ -19,7 +19,7 @@ export default function Home() {
         <Preloader setLoading={setLoading} />
       ) : (
         <div className="flex flex-col min-h-screen">
-          <main className="container-layout ">
+          <main className="container-layout relative overflow-hidden">
             <NavigationBar />
             <Hero />
             <ProjectsFramer/>

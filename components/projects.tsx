@@ -121,7 +121,7 @@ const ProjectsFramer = () => {
   }, [currentQuote]);
 
   return (
-    <div className="mx-auto overflow-hidden  sm:px-6 lg:px-12 max-w-screen-xl">
+    <div className="overflow-hidden">
       <div className="whitespace-nowrap w-full pb-10 sm:pb-16 lg:pb-20">
         <h1
           ref={headingRef}

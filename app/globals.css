@@ -31,8 +31,8 @@
   }
 
   .text-clamp-xl {
-    font-size: clamp(1.6rem, 0.5vw, 2.5rem); /* Clamps between 1.75rem (28px) and 2.5rem (40px) */
-    line-height: clamp(2.5rem, 5vw, 3rem); /* Clamps line height between 2.5rem (40px) and 3rem (48px) */
+    font-size: clamp(1.6rem, 1.5vw, 3.5rem);
+    line-height: clamp(2.5rem,5vw, 3rem); 
   }
 
   .main-btn {

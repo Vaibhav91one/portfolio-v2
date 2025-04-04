@@ -100,20 +100,18 @@ const aboutMeSection = (props: Props) => {
     }
   }, []);
 
-
-  useGSAP(()=> {
-
+  useGSAP(() => {
     gsap.to(sectionRef.current, {
       y: -50,
-      ease: 'power1.inOut',
+      ease: "power1.inOut",
       scrollTrigger: {
         trigger: sectionRef.current,
-        start: 'center center',
+        start: "center center",
         // end: 'bottom center',
         scrub: true,
-      }
-    })
-  })
+      },
+    });
+  });
 
   return (
     <>
@@ -128,28 +126,29 @@ const aboutMeSection = (props: Props) => {
               onMouseLeave={() => scaleRevertCursor()}
               className="titleAbout text-clamp-about"
             >
-              <span className="animate-slow-spin inline-block">✺</span> <span className="text-nowrap">ABOUT </span> ME
+              <span className="animate-slow-spin inline-block">✺</span>{" "}
+              <span className="text-nowrap">ABOUT </span> ME
             </h1>
           </div>
           <div className="flex flex-col items-start justify-center gap-15 px-10 lg:px-0">
-            <div ref={textRef} className="text-clamp-xl">
-              I approach all things design with a distinct blend
-              <span>
-                {" "}
-                <DNA />{" "}
-              </span>{" "}
-              of play and minimalism, seamlessly{" "}
-              <span>
-                {" "}
-                <Compass />{" "}
-              </span>{" "}
-              navigating design challenges and delivering functional +
-              delightful{" "}
-              <span>
-                {" "}
-                <Star />{" "}
-              </span>{" "}
-              solutions.
+            <div
+              ref={textRef}
+              className="line-clamp-4 text-clamp-xl leading-relaxed overflow-hidden"
+            >
+              I approach all things design with a distinct blend&nbsp;
+              <span className="inline-block align-middle">
+                <DNA />
+              </span>
+              &nbsp;of play and minimalism, seamlessly&nbsp;
+              <span className="inline-block align-middle">
+                <Compass />
+              </span>
+              &nbsp;navigating design challenges and delivering functional +
+              delightful&nbsp;
+              <span className="inline-block align-middle">
+                <Star />
+              </span>
+              &nbsp;solutions.
             </div>
             <Button
               className="main-btn  .btnRef"
