@@ -10,6 +10,7 @@ import SplitType from "split-type";
 import { useCursor } from "./ui/Cursor";
 import Image from "next/image";
 import ProfilePicture from "../public/assets/Images/no Bg.png";
+import ProfilePicture2 from "../public/assets/Images/hill.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -155,55 +156,65 @@ const HeroSection = () => {
 
   return (
     <>
-    <div ref={heroRef} className="relative">
-      <div  className="relative flex justify-center max-h-screen items-center overflow-hidden bg-gray-500">
-      
-        <div>
-          <Image
-            src={ProfilePicture}
-            alt="Your Photo"
-            width={500}
-            height={500}
-            className="object-cover -translate-y-20"
-          />
-        </div>
-        <div
-          className="absolute right-20 flex justify-center items-start
+      <div ref={heroRef} className="relative">
+        <div className="relative flex justify-center max-h-[100vh] h-[100vh] items-center overflow-hidden bg-gray-500">
+          <div className="flex justify-center items-center">
+            <Image
+              src={ProfilePicture}
+              alt="Your Photo"
+              width={550}
+              height={550}
+              className="object-cover grayscale"
+            />
+            <Image
+              src={ProfilePicture}
+              alt="Your Photo"
+              width={550}
+              height={550}
+              className="hidden lg:block object-cover grayscale transform rotate-180"
+            />
+          </div>
+          <div
+            className="absolute right-20 flex justify-center items-start
          flex-col text-3xl gap-2"
-        >
-          <p className="font-regular text-white">Software Developer</p>
-          <p className="font-regular text-white">Freelancer</p>
-        </div>
+          >
+            <p className=" text-white">Software Developer</p>
+            <p className=" text-white">Cybersecurity</p>
+            <p className=" text-white">Freelancer</p>
+          </div>
 
-        <div
-          className="absolute left-0 rounded-l-md rounded-r-full flex justify-center items-center
+          <div
+            className="absolute left-0 rounded-l-md rounded-r-full flex justify-center items-center
           text-3xl gap-12 bg-black p-5"
-        >
-          <p className="text-white w-30">Located in India</p>
+          >
+            <p className="text-white w-30">Located in India</p>
 
-          <div className="bg-gray-400 rounded-full">
-            <Globe className="text-white rounded-full m-4 animate-rotate-slow" size={40} />
+            <div className="bg-gray-400 rounded-full">
+              <Globe
+                className="text-white rounded-full m-4 animate-rotate-slow"
+                size={40}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="absolute top-screen-minus-350">
+          <div ref={slider} className="relative whitespace-nowrap">
+            <p
+              ref={firstText}
+              className="relative m-0 text-white text-[200px] font-medium pr-[50px]"
+            >
+              Vaibhav Tomar -
+            </p>
+
+            <p
+              ref={secondText}
+              className="absolute left-[100%] top-0 m-0 text-white text-[200px] font-medium pr-[50px]"
+            >
+              Vaibhav Tomar -
+            </p>
           </div>
         </div>
       </div>
-      <div className="absolute top-screen-minus-350">
-        <div ref={slider} className="relative whitespace-nowrap">
-          <p
-            ref={firstText}
-            className="relative m-0 text-white text-[200px] font-medium pr-[50px]"
-          >
-            Vaibhav Tomar -
-          </p>
-
-          <p
-            ref={secondText}
-            className="absolute left-[100%] top-0 m-0 text-white text-[200px] font-medium pr-[50px]"
-          >
-            Vaibhav Tomar -
-          </p>
-        </div>
-      </div>
-    </div>
     </>
   );
 };

@@ -52,7 +52,7 @@ const aboutMeSection = (props: Props) => {
           t2.from(splitTitle.chars, {
             y: 50, // Start from -50px on X-axis
             opacity: 0,
-            delay: 1, // Delay before animation starts
+            delay: 3, // Delay before animation starts
             stagger: 0.05, // Stagger effect (each character animates 0.05s apart)
             duration: 0.8, // Smooth transition duration
             ease: "power2.out",
@@ -82,7 +82,7 @@ const aboutMeSection = (props: Props) => {
       t2.from(splitLines.lines, {
         opacity: 0.3,
         y: 100,
-        delay: 1, // Delay before animation starts
+        delay: 3, // Delay before animation starts
         stagger: 0.5,
         duration: 3,
         ease: "power2.out",
@@ -131,7 +131,7 @@ const aboutMeSection = (props: Props) => {
             </h1>
           </div>
           <div className="flex flex-col items-start justify-center gap-15 px-10 lg:px-0">
-          <div ref={textRef} className="text-clamp-xl">
+            <div ref={textRef} className="text-clamp-xl">
               I approach all things design with a distinct blend
               <span>
                 {" "}
