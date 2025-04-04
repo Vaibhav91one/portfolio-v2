@@ -3,11 +3,6 @@
 import React, { useEffect, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
-import Button from "./ui/Button";
-import Image from "next/image";
-import ProfilePicture from "../public/assets/Images/no Bg.png";
-import { Mail } from "lucide-react";
-import { NextJS } from "./svgComponents/nextjs";
 import Magnetic from "./ui/Magnetic";
 import Robot from "./3D/Robot";
 import { Github, Twitter, Linkedin, Clock } from "lucide-react";

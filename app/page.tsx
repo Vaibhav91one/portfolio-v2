@@ -34,7 +34,7 @@ export default function Home() {
               <About  />
             </>
           </main>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       )}
     </>

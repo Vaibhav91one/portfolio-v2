@@ -7,7 +7,7 @@ const Spline = dynamic(() => import('@splinetool/react-spline').then(mod => mod.
   ssr: false,
 });
 
-export default function Home() {
+export default function Robot() {
   return (
     <main className='w-fit h-full'>
       <Spline 
