@@ -27,13 +27,13 @@ const footer = (props: Props) => {
 
   return (
     <div
-      className="relative h-[80vh] min-h-[100vh]"
+      className="relative h-[80vh] min-h-[100vh] overflow-hidden"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
       <div className="relative h-[calc(100vh+80vh)] bottom-[80vh]">
         <div className="bg-black text-white px-12 h-full w-full flex flex-col justify-between">
           <div className="h-[85vh] sticky top-[calc(100vh-80vh)]">
-            <div className="relative grid grid-cols-1 lg:grid-cols-2 grid-rows-1 gap-4">
+            <div className="relative  grid grid-cols-1 lg:grid-cols-2 grid-rows-1 gap-4">
               <div>
                 <div className="flex justify-center flex-col items-center gap-10">
                   <div className="w-full border-b-2">
@@ -54,9 +54,6 @@ const footer = (props: Props) => {
                     </Magnetic>
                   </div>
                 </div>
-              </div>
-              <div className="absolute md:relative pointer-events-none inset-0 opacity-0 z-0 md:opacity-100 ">
-                <Robot />
               </div>
             </div>
             <footer className="w-full text-white absolute bottom-0 left-0 bg-opacity-70 p-4 flex flex-col sm:flex-row items-center justify-between z-50 gap-5 text-sm">
@@ -103,6 +100,9 @@ const footer = (props: Props) => {
               {/* Version */}
               <div className="italic text-gray-400 mt-2 sm:mt-0">{version}</div>
             </footer>
+            <div className="absolute top-0 right-0 z-[-99] translate-x-1000 lg:translate-x-100 pointer-events-none">
+                <Robot />
+              </div>
           </div>
         </div>
       </div>
