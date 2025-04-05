@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { useCursor } from "./ui/Cursor";
 import Button from "./ui/Button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Link } from "lucide-react";
 import DNA from "./svgComponents/dna";
 import Compass from "./svgComponents/compass";
 import Star from "./svgComponents/star";
@@ -118,7 +118,7 @@ const aboutMeSection = (props: Props) => {
     <>
       <div
         ref={sectionRef}
-        className="min-h-screen flex items-center justify-center"
+        className="max-w-[1300px] mx-auto min-h-screen flex items-center flex-col justify-center gap-20"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 gap-5 lg:gap-1">
           <div className="flex items-center justify-center text-center">
@@ -131,31 +131,33 @@ const aboutMeSection = (props: Props) => {
               <span className="text-nowrap">ABOUT </span> ME
             </h1>
           </div>
-          <div className="flex flex-col items-start justify-center gap-15 px-10 lg:px-0">
-            <div ref={textRef} className="text-clamp-xl">
-              I approach all things design with a distinct blend
-              <span>
-                {" "}
-                <DNA />{" "}
-              </span>{" "}
-              of play and minimalism, seamlessly{" "}
-              <span>
-                {" "}
-                <Compass />{" "}
-              </span>{" "}
-              navigating design challenges and delivering functional +
-              delightful{" "}
-              <span>
-                {" "}
-                <Star />{" "}
-              </span>{" "}
-              solutions.
-            </div>
 
+          <div className="flex flex-col items-center lg:items-start  justify-center px-6 py-12 lg:px-20 max-w-5xl mx-auto">
+            <div
+              ref={textRef}
+              className="flex  flex-col  items-center gap-6 md:gap-8"
+            >
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-regular">
+                A Swiss-army-knife(-ish!) designer with a love for playful,
+                minimal, and functional design.
+              </h1>
+              <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
+              I solve problems through code — always learning, always refining.
+</p>
+              <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
+  I build with JavaScript, TypeScript, and Python — using tools like Next.js, React, GSAP, TailwindCSS, and Docker. I care about clean code, security, and good API design.
+</p>
+
+              <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
+                Currently at JPL (Jio Platforms Limited) — working on building
+                internal tools for streamlining tasks and team efficiency. Open
+                to new opportunities.
+              </p>
+            </div>
             <Button
-              className="main-btn  .btnRef"
-              title="MORE ABOUT ME"
-              icon={ArrowRight}
+              className="main-btn  btnRef mt-16 "
+              title="GET MY RESUME"
+              icon={Link}
             />
           </div>
         </div>

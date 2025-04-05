@@ -56,7 +56,7 @@ const footer = (props: Props) => {
                 </div>
               </div>
             </div>
-            <footer className="w-full text-white absolute bottom-0 left-0 bg-opacity-70 p-4 flex flex-col sm:flex-row items-center justify-between z-50 gap-5 text-sm">
+            <footer id="footer" className="w-full text-white absolute bottom-0 left-0 bg-opacity-70 p-4 flex flex-col sm:flex-row items-center justify-between z-50 gap-5 text-sm">
               {/* Socials */}
               <div className="flex gap-2 items-center">
                 <Magnetic>

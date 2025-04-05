@@ -11,7 +11,11 @@ import AnimatedParagraph from "./ui/AnimatedText";
 
 type Props = {};
 
-const navItems = ["Work", "About", "Contact"];
+const navItems = [
+  { label: "Work", id: "projects" },
+  { label: "About", id: "about" },
+  { label: "Contact", id: "footer" }, // assuming footer is your contact section
+];
 
 const NavigationBar = (props: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,40 +71,44 @@ const NavigationBar = (props: Props) => {
 
   return (
     <>
-<nav className="hidden md:flex absolute z-10 w-full justify-between items-center text-xl my-5 px-5 text-white">
-  {/* LEFT SIDE: Branding */}
-  <div className="flex items-center">
-    <div className="flex items-center gap-2 -mt-3 ml-2 uppercase leading-none tracking-tight">
-      <AnimatedParagraph description="© Code By Vaibhav Tomar" />
-    </div>
-  </div>
+      <nav className="hidden md:flex absolute z-10 w-full justify-between items-center text-xl my-5 px-5 text-white">
+        {/* LEFT SIDE: Branding */}
+        <div className="flex items-center">
+          <div className="flex items-center gap-2 -mt-3 ml-2 uppercase leading-none tracking-tight">
+            <AnimatedParagraph description="© Code By Vaibhav Tomar" />
+          </div>
+        </div>
 
-  {/* RIGHT SIDE: Nav Links */}
-  <ul className="flex flex-row items-center gap-10">
-    {navItems.map((item, i) => (
-      <li key={item} className="relative mt-2">
-        <a
-          href="#"
-          ref={(el) => {
-            linksRef.current[i] = el;
-          }}
-          style={{ perspective: '380px' }}
-          className="flex flex-col items-center outline-none focus:outline-none"
-        >
-          <span className="nav-text nav-text--bold uppercase leading-none tracking-tight">
-            {item}
-          </span>
-          <span className="nav-text nav-text--front uppercase leading-none tracking-tight text-black opacity-0">
-            {item}
-          </span>
-        </a>
-      </li>
-    ))}
-  </ul>
-
-  
-</nav>
-
+        {/* RIGHT SIDE: Nav Links */}
+        <ul className="flex flex-row items-center gap-10">
+          {navItems.map((item, i) => (
+            <li key={item.label} className="relative mt-2">
+              <a
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.getElementById(item.id);
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
+                ref={(el) => {
+                  linksRef.current[i] = el;
+                }}
+                style={{ perspective: "380px" }}
+                className="flex flex-col items-center outline-none focus:outline-none"
+              >
+                <span className="nav-text nav-text--bold uppercase leading-none tracking-tight">
+                  {item.label}
+                </span>
+                <span className="nav-text nav-text--front uppercase leading-none tracking-tight opacity-0">
+                  {item.label}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       <div className="md:hidden block absolute top-0">
         <BurgerMenu />

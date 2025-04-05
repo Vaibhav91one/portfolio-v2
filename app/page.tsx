@@ -21,16 +21,22 @@ export default function Home() {
   }, [loading]);
   return (
     <>
-      {loading && <Preloader setLoading={setLoading} />}
+      {/* {loading && <Preloader setLoading={setLoading} />} */}
       {showContent && (
         <div>
-          <main  className="container-layout relative overflow-hidden scrollbar-hide">
+          <main className="container-layout relative overflow-hidden scrollbar-hide">
             {/* Show the rest of the app after delay */}
             <>
               <NavigationBar />
-              <Hero />
-              <ProjectsFramer />
-              <About  />
+              <section id="hero">
+                <Hero />
+              </section>
+              <section id="projects">
+                <ProjectsFramer />
+              </section>
+              <section id="about">
+                <About />
+              </section>
             </>
           </main>
           <Footer />
