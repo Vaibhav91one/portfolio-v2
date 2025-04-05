@@ -27,7 +27,7 @@ export default function Home() {
           <main  className="container-layout relative overflow-hidden scrollbar-hide">
             {/* Show the rest of the app after delay */}
             <>
-              {/* <NavigationBar /> */}
+              <NavigationBar />
               <Hero />
               <ProjectsFramer />
               <About  />

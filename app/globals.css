@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @layer utilities {
- 
+
   .container-layout {
-    @apply overflow-hidden ;
+    @apply overflow-hidden;
   }
 
   .section-layout {
@@ -31,12 +31,12 @@
   }
 
   .text-clamp-xl {
-    font-size: clamp(1.4rem,1.4vw, 5rem);
-    line-height: clamp(2.5rem,5vw, 3rem); 
+    font-size: clamp(1.4rem, 1.4vw, 5rem);
+    line-height: clamp(2.5rem, 5vw, 3rem);
   }
 
   .main-btn {
-    @apply px-5 py-6 w-[15rem] flex justify-center items-center; 
+    @apply px-5 py-6 w-[15rem] flex justify-center items-center;
   }
 
   .top-screen-minus-350 {
@@ -51,6 +51,7 @@
   .animate-rotate-slow {
     animation: spin 10s linear infinite;
   }
+
 
 }
 
@@ -67,7 +68,7 @@
     --background: #f5f5f5;
   }
 
-  
+
 }
 
 body {
@@ -79,14 +80,18 @@ body {
 /* styles/globals.css */
 
 /* Hide scrollbar but keep scroll functionality */
-html, body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+html,
+body {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari, Opera */
+  display: none;
+  /* Chrome, Safari, Opera */
 }
 
 
@@ -95,6 +100,7 @@ body::-webkit-scrollbar {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -103,4 +109,3 @@ body::-webkit-scrollbar {
 .animate-slow-spin {
   animation: slow-spin 6s linear infinite;
 }
-

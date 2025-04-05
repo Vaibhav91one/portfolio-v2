@@ -1,16 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Button from "./ui/Button";
 import { ArrowDown, Globe } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import SplitType from "split-type";
-import { useCursor } from "./ui/Cursor";
 import Image from "next/image";
 import ProfilePicture from "../public/assets/Images/no Bg.png";
-import ProfilePicture2 from "../public/assets/Images/hill.png";
+import Magnetic from "./ui/Magnetic";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,14 +68,45 @@ const HeroSection = () => {
       });
     }
   });
+  const imageRef = useRef(null);
+  const secondImageRef = useRef(null);
+  useEffect(() => {
+    const handleMouseMove = (e: any) => {
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX / innerWidth - 0.5) * 10; // tweak the multiplier for more/less movement
+      const y = (e.clientY / innerHeight - 0.5) * 10;
+
+      gsap.to(imageRef.current, {
+        x,
+        duration: 0.5,
+        ease: "power3.out"
+      });
+
+      gsap.to(secondImageRef.current, {
+        x: -x , // opposite and smaller
+        // y: -y * 0.5,
+        duration: 0.7,
+        ease: "power3.out"
+      });
+
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
 
   return (
     <>
       <div ref={heroRef} className="relative">
+        {/* <NavigationBar/> */}
         <div className="relative flex justify-center max-h-[100vh] h-[100vh] items-center overflow-hidden bg-gray-500">
           <div className="flex justify-center items-center">
             <Image
               src={ProfilePicture}
+              ref={imageRef}
               alt="Your Photo"
               width={550}
               height={550}
@@ -87,25 +115,35 @@ const HeroSection = () => {
             <Image
               src={ProfilePicture}
               alt="Your Photo"
+              ref={secondImageRef}
               width={550}
               height={550}
-              className="hidden lg:block object-cover grayscale transform rotate-180"
+              className="hidden lg:block object-cover grayscale transform rotate-180 mix-blend-luminosity"
             />
           </div>
           <div
             className="title absolute font-regular right-10 lg:right-20 flex justify-center items-end bottom-10 lg:bottom-auto
          flex-col text-xl gap-2"
           >
-            <p className=" text-white">Software Developer</p>
-            <p className=" text-white">Cybersecurity</p>
-            <p className=" text-white">Freelancer</p>
+            <Magnetic>
+              <p className=" text-white">Software Developer</p>
+            </Magnetic>
+            <Magnetic>
+              <p className=" text-white">Cybersecurity</p>
+            </Magnetic>
+            <Magnetic>
+              <p className=" text-white">Freelancer</p>
+            </Magnetic>
+
           </div>
 
           <div
             className="title absolute bottom-0 lg:bottom-auto left-0 rounded-l-md rounded-r-full flex justify-center items-center
           text-xl lg:text-2xl gap-12 bg-none lg:bg-black p-5"
           >
-            <p className="text-white hidden lg:block lg:w-30">Located in India</p>
+            <p className="text-white hidden lg:block lg:w-30">
+              Located in India
+            </p>
 
             <div className="bg-gray-400 rounded-full">
               <Globe
