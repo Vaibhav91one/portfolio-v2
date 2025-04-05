@@ -33,7 +33,7 @@ const footer = (props: Props) => {
       <div className="relative h-[calc(100vh+80vh)] bottom-[80vh]">
         <div className="bg-black text-white px-12 h-full w-full flex flex-col justify-between">
           <div className="h-[85vh] sticky top-[calc(100vh-80vh)]">
-            <div className="relative mx-60 grid grid-cols-1 grid-rows-1 gap-4">
+            <div className="relative lg:mx-100 grid grid-cols-1 grid-rows-1 gap-4">
               <div className="mix-blend-hue">
                 <div className="flex justify-center flex-col items-center gap-10">
                   <div className="w-full border-b-2">
