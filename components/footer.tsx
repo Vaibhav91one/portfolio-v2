@@ -27,7 +27,7 @@ const footer = (props: Props) => {
 
   return (
     <div
-      className="relative h-[80vh] min-h-[100vh] overflow-hidden"
+      className="relative h-[80vh] min-h-[100vh]"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
       <div className="relative h-[calc(100vh+80vh)] bottom-[80vh]">
