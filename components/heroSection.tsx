@@ -68,45 +68,44 @@ const HeroSection = () => {
       });
     }
   });
-  const imageRef = useRef(null);
-  const secondImageRef = useRef(null);
-  useEffect(() => {
-    const handleMouseMove = (e: any) => {
-      const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 10; // tweak the multiplier for more/less movement
-      const y = (e.clientY / innerHeight - 0.5) * 10;
+  // const imageRef = useRef(null);
+  // const secondImageRef = useRef(null);
+  // useEffect(() => {
+  //   const handleMouseMove = (e: any) => {
+  //     const { innerWidth, innerHeight } = window;
+  //     const x = (e.clientX / innerWidth - 0.5) * 10; // tweak the multiplier for more/less movement
+  //     const y = (e.clientY / innerHeight - 0.5) * 10;
 
-      gsap.to(imageRef.current, {
-        x,
-        duration: 0.5,
-        ease: "power3.out"
-      });
+  //     gsap.to(imageRef.current, {
+  //       x,
+  //       duration: 0.5,
+  //       ease: "power3.out"
+  //     });
 
-      gsap.to(secondImageRef.current, {
-        x: -x , // opposite and smaller
-        // y: -y * 0.5,
-        duration: 0.7,
-        ease: "power3.out"
-      });
+  //     gsap.to(secondImageRef.current, {
+  //       x: -x , // opposite and smaller
+  //       // y: -y * 0.5,
+  //       duration: 0.7,
+  //       ease: "power3.out"
+  //     });
 
-    };
+  //   };
 
-    window.addEventListener("mousemove", handleMouseMove);
+  //   window.addEventListener("mousemove", handleMouseMove);
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("mousemove", handleMouseMove);
+  //   };
+  // }, []);
 
   return (
     <>
       <div ref={heroRef} className="relative">
         {/* <NavigationBar/> */}
         <div className="relative flex justify-center max-h-[100vh] h-[100vh] items-center overflow-hidden bg-gray-500">
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center pointer-events-none">
             <Image
               src={ProfilePicture}
-              ref={imageRef}
               alt="Your Photo"
               width={550}
               height={550}
@@ -115,7 +114,6 @@ const HeroSection = () => {
             <Image
               src={ProfilePicture}
               alt="Your Photo"
-              ref={secondImageRef}
               width={550}
               height={550}
               className="hidden lg:block object-cover grayscale transform rotate-180 mix-blend-luminosity"
@@ -125,16 +123,9 @@ const HeroSection = () => {
             className="title absolute font-regular right-10 lg:right-20 flex justify-center items-end bottom-10 lg:bottom-auto
          flex-col text-xl gap-2"
           >
-            <Magnetic>
               <p className=" text-white">Software Developer</p>
-            </Magnetic>
-            <Magnetic>
               <p className=" text-white">Cybersecurity</p>
-            </Magnetic>
-            <Magnetic>
               <p className=" text-white">Freelancer</p>
-            </Magnetic>
-
           </div>
 
           <div

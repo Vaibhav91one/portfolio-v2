@@ -1,44 +1,50 @@
-import React from 'react'
-import Magnetic from './ui/Magnetic'
+import React from "react";
+import Magnetic from "./ui/Magnetic";
+import BurgerMenu from "./ui/BurgerMenu/BurgerMenu";
 
-type Props = {}
+type Props = {};
 
 const NavigationBar = (props: Props) => {
   return (
     <>
-    <nav className='absolute z-10 w-full flex justify-start items-center text-xl my-5 px-5 text-white'>
-        <div className="flex justify-start items-center
-        ">
-            <p>©</p>
-            <div className='flex justify-center items-center gap-2'  >
-                <p >Code by </p>
-                <p >Vaibhav</p>
-                <p >Tomar</p>
+      <nav className="hidden  md:flex absolute z-10 w-full justify-start items-center text-xl my-5 px-5 text-white">
+        <div
+          className="flex justify-start items-center
+        "
+        >
+          <p>©</p>
+          <div className="flex justify-center items-center gap-2">
+            <p>Code by </p>
+            <p>Vaibhav</p>
+            <p>Tomar</p>
+          </div>
+        </div>
+        <div className="flex justify-end flex-1 items-center gap-15">
+          <Magnetic>
+            <div>
+              <a>Work</a>
+              <div></div>
             </div>
+          </Magnetic>
+          <Magnetic>
+            <div>
+              <a>About</a>
+              <div></div>
+            </div>
+          </Magnetic>
+          <Magnetic>
+            <div>
+              <a>Contact</a>
+              <div></div>
+            </div>
+          </Magnetic>
         </div>
-        <div className='flex justify-end flex-1 items-center gap-15'  >
-            <Magnetic>
-                <div >
-                    <a>Work</a>
-                    <div></div>
-                </div>
-            </Magnetic>
-            <Magnetic>
-                <div >
-                    <a>About</a>
-                    <div ></div>
-                </div>
-            </Magnetic>
-            <Magnetic>
-                <div>
-                    <a>Contact</a>
-                    <div></div>
-                </div>
-            </Magnetic>
+      </nav>
+        <div className="md:hidden block absolute top-0">
+          <BurgerMenu />
         </div>
-    </nav>
     </>
-  )
-}
+  );
+};
 
-export default NavigationBar
+export default NavigationBar;

@@ -21,7 +21,7 @@ export default function Home() {
   }, [loading]);
   return (
     <>
-      {loading && <Preloader setLoading={setLoading} />}
+      {/* {loading && <Preloader setLoading={setLoading} />} */}
       {showContent && (
         <div>
           <main  className="container-layout relative overflow-hidden scrollbar-hide">
