@@ -120,11 +120,11 @@ const HeroSection = () => {
             />
           </div>
           <div
-            className="title absolute font-regular right-10 lg:right-20 flex justify-center items-end bottom-10 lg:bottom-auto
+            className="title absolute font-regular right-10 lg:right-20 flex justify-center items-start bottom-10 lg:bottom-auto
          flex-col text-xl gap-2"
           >
               <p className=" text-white">Software Developer</p>
-              <p className=" text-white">Cybersecurity</p>
+              <p className=" text-white">Cybersecurity Researcher</p>
               <p className=" text-white">Freelancer</p>
           </div>
 

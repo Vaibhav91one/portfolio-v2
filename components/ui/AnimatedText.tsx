@@ -24,7 +24,7 @@ const AnimatedParagraph = ({ description }: { description: string }) => {
     // Staggered fade-in effect for lines
     gsap.to(splitLines.lines, {
       opacity: 1,
-      y: 20,
+      // y: 20,
       stagger: 0.2,
       ease: "power2.out",
       scrollTrigger: {
@@ -43,7 +43,7 @@ const AnimatedParagraph = ({ description }: { description: string }) => {
       gsap.fromTo(
         target,
         { opacity: 0, y: -5, rotationX: 180 },
-        { opacity: 1, y: 0, rotationX: 0, duration: 0.4, ease: "power2.out" }
+        { opacity: 1, y: 0, rotationX: 0, duration: 0.4, ease: "power2.out"}
       );
     };
 
@@ -67,7 +67,7 @@ const AnimatedParagraph = ({ description }: { description: string }) => {
   }, []);
 
   return (
-    <p ref={textRef} className="text-lg md:text-xl mt-2 leading-relaxed opacity-0">
+    <p ref={textRef} className="text-lg md:text-xl  leading-relaxed opacity-0">
       {description}
     </p>
   );
