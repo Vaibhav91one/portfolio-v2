@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import Magnetic from "./ui/Magnetic";
-import Robot from "./3D/Robot";
 import { Github, Twitter, Linkedin, Clock } from "lucide-react";
+import Spline from "@splinetool/react-spline";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -100,7 +100,9 @@ const footer = (props: Props) => {
               {/* Version */}
               <div className="italic text-gray-400 mt-2 sm:mt-0">{version}</div>
             </footer>
-                <Robot />
+            <div className="absolute top-0 z-[-99] opacity-0 lg:opacity-50 pointer-events-none">
+              <Spline scene="https://prod.spline.design/M4S11dvJnr65ej9S/scene.splinecode" />
+            </div>
           </div>
         </div>
       </div>
