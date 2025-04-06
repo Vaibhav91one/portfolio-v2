@@ -75,7 +75,8 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
   return (
     <div
       ref={preloaderRef}
-      className="fixed inset-0 flex items-center justify-center bg-black text-white z-50 opacity-0"
+      className="fixed inset-0 flex items-center justify-center bg-black text-white opacity-0"
+      style={{ zIndex: 9999 }}
     >
       <h1 ref={textRef} className="text-3xl opacity-0">
         {messages[index]}

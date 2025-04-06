@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import Magnetic from "./ui/Magnetic";
-import { Github, Twitter, Linkedin, Clock } from "lucide-react";
+import { Github, Twitter, Linkedin, Clock, X } from "lucide-react";
 import Spline from "@splinetool/react-spline";
+import TwitterIcon from "./svgComponents/Twitter";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,12 +57,12 @@ const footer = (props: Props) => {
                 </div>
               </div>
             </div>
-            <footer id="footer" className="w-full text-white absolute bottom-0 left-0 bg-opacity-70 p-4 flex flex-col sm:flex-row items-center justify-between z-50 gap-5 text-sm">
+            <footer className="w-full text-white absolute bottom-0 left-0 bg-opacity-70 p-4 flex flex-col sm:flex-row items-center justify-between z-50 gap-5 text-sm">
               {/* Socials */}
               <div className="flex gap-2 items-center">
                 <Magnetic>
                   <a
-                    href="https://github.com/yourusername"
+                    href="https://github.com/Vaibhav91one"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-gray-400 p-5 rounded-full transition-colors"
@@ -71,17 +72,19 @@ const footer = (props: Props) => {
                 </Magnetic>
                 <Magnetic>
                   <a
-                    href="https://twitter.com/yourhandle"
+                    href="https://x.com/VrsatileVaibhav"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-gray-400 p-5 rounded-full transition-colors"
                   >
-                    <Twitter size={30} />
+                    {/* <Twitter size={30} />
+                    <X/> */}
+                    <TwitterIcon/>
                   </a>
                 </Magnetic>
                 <Magnetic>
                   <a
-                    href="https://linkedin.com/in/yourprofile"
+                    href="https://www.linkedin.com/in/vaibhav-tomar-a6b2b6255/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-gray-400 p-5 rounded-full transition-colors"

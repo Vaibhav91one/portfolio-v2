@@ -56,7 +56,7 @@ const HeroSection = () => {
         scrub: 1,
         animation: gsap.to(heroRef.current, {
           y: "-20%",
-          opacity: 0,
+          // opacity: 0,
           ease: "none",
         }),
       });
@@ -68,35 +68,6 @@ const HeroSection = () => {
       });
     }
   });
-  // const imageRef = useRef(null);
-  // const secondImageRef = useRef(null);
-  // useEffect(() => {
-  //   const handleMouseMove = (e: any) => {
-  //     const { innerWidth, innerHeight } = window;
-  //     const x = (e.clientX / innerWidth - 0.5) * 10; // tweak the multiplier for more/less movement
-  //     const y = (e.clientY / innerHeight - 0.5) * 10;
-
-  //     gsap.to(imageRef.current, {
-  //       x,
-  //       duration: 0.5,
-  //       ease: "power3.out"
-  //     });
-
-  //     gsap.to(secondImageRef.current, {
-  //       x: -x , // opposite and smaller
-  //       // y: -y * 0.5,
-  //       duration: 0.7,
-  //       ease: "power3.out"
-  //     });
-
-  //   };
-
-  //   window.addEventListener("mousemove", handleMouseMove);
-
-  //   return () => {
-  //     window.removeEventListener("mousemove", handleMouseMove);
-  //   };
-  // }, []);
 
   return (
     <>
@@ -109,7 +80,7 @@ const HeroSection = () => {
               alt="Your Photo"
               width={550}
               height={550}
-              className="object-cover grayscale"
+              className="object-cover grayscale -translate-x-10 lg:-translate-x-0"
             />
             <Image
               src={ProfilePicture}
@@ -120,8 +91,8 @@ const HeroSection = () => {
             />
           </div>
           <div
-            className="title absolute font-regular right-10 lg:right-20 flex justify-center items-start bottom-10 lg:bottom-auto
-         flex-col text-xl gap-2"
+            className="title absolute font-regular right-5 lg:right-20 flex justify-center items-end lg:items-start bottom-2 lg:bottom-auto
+         flex-col text-lg lg:text-2xl gap-2"
           >
               <p className=" text-white">Software Developer</p>
               <p className=" text-white">Cybersecurity Researcher</p>

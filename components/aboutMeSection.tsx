@@ -68,37 +68,46 @@ const aboutMeSection = (props: Props) => {
       }
     }
 
-    if (textRef.current) {
-      // Split text into lines & characters
-      const splitLines = new SplitType(textRef.current, {
-        types: "lines",
-      });
+    // if (!textRef.current) return;
 
-      if (!splitLines.lines) return;
+    // const elements = textRef.current.querySelectorAll("h1, p");
+    // const splitInstances: any[] = [];
 
-      // Ensure splitLines.chars and splitLines.lines exist
-      if (!splitLines.lines.length) return;
+    // const allLines: HTMLElement[] = [];
 
-      // GSAP animation for lines (staggered fade-in effect)
-      t2.from(splitLines.lines, {
-        opacity: 0.3,
-        y: 100,
-        delay: 3, // Delay before animation starts
-        stagger: 0.5,
-        duration: 3,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: splitLines.lines,
-          start: "top bottom",
-          end: "top center",
-          scrub: true,
-        },
-      });
+    // elements.forEach((el) => {
+    //   const split = new SplitType(el as HTMLElement, {
+    //     types: "lines",
+    //     lineClass: "split-line", // optional class for styling
+    //   });
+    //   splitInstances.push(split);
+    //   if (split.lines) {
+    //     allLines.push(...split.lines);
+    //   }
+      
+    // });
 
-      return () => {
-        splitLines.revert(); // Revert text to original state
-      };
-    }
+    // const tl = gsap.timeline({
+    //   scrollTrigger: {
+    //     trigger: textRef.current,
+    //     start: "top bottom",
+    //     end: "top center",
+    //     scrub: true,
+    //   },
+    // });
+
+    // tl.from(allLines, {
+    //   opacity: 0,
+    //   y: 80,
+    //   stagger: 0.2,
+    //   duration: 1.5,
+    //   ease: "power2.out",
+    // });
+
+    // return () => {
+    //   splitInstances.forEach((split) => split.revert());
+    //   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    // };
   }, []);
 
   useGSAP(() => {
@@ -118,7 +127,7 @@ const aboutMeSection = (props: Props) => {
     <>
       <div
         ref={sectionRef}
-        className="max-w-[1300px] mx-auto min-h-screen flex items-center flex-col justify-center gap-20"
+        className="max-w-[1300px] h-[120vh] mx-auto min-h-screen flex items-center flex-col justify-center gap-20"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 gap-5 lg:gap-1">
           <div className="flex items-center justify-center text-center">
@@ -135,18 +144,21 @@ const aboutMeSection = (props: Props) => {
           <div className="flex flex-col items-center lg:items-start  justify-center px-6 py-12 lg:px-20 max-w-5xl mx-auto">
             <div
               ref={textRef}
-              className="flex  flex-col  items-center gap-6 md:gap-8"
+              className="flex flex-col items-center gap-6 md:gap-8"
             >
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-regular">
-                A Swiss-army-knife(-ish!) designer with a love for playful,
+              <h1 className="text-lg md:text-xl lg:text-2xl font-regular">
+                A Swiss-army-knife(-ish!) developer with a love for playful,
                 minimal, and functional design.
               </h1>
               <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
-              I solve problems through code — always learning, always refining.
-</p>
+                I solve problems through code — always learning, always
+                refining.
+              </p>
               <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
-  I build with JavaScript, TypeScript, and Python — using tools like Next.js, React, GSAP, TailwindCSS, and Docker. I care about clean code, security, and good API design.
-</p>
+                I build with JavaScript, TypeScript, and Python — using tools
+                like Next.js, React, GSAP, TailwindCSS, and Docker. I care about
+                clean code, security, and good API design.
+              </p>
 
               <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
                 Currently at JPL (Jio Platforms Limited) — working on building
@@ -154,11 +166,16 @@ const aboutMeSection = (props: Props) => {
                 to new opportunities.
               </p>
             </div>
-            <Button
-              className="main-btn  btnRef mt-16 "
-              title="GET MY RESUME"
-              icon={Link}
-            />
+            <a
+              href="https://drive.google.com/file/d/1a-1PrSYjHAtb_VPHy1jDiPXmniV99qbl/view?usp=sharing"
+              target="_blank"
+            >
+              <Button
+                className="main-btn  btnRef mt-16 "
+                title="GET MY RESUME"
+                icon={Link}
+              />
+            </a>
           </div>
         </div>
       </div>

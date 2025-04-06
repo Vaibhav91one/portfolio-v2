@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image1 from "@/public/assets/Images/1082549.png";
 import Image2 from "@/public/assets/Images/2008451.jpg";
 import Image3 from "@/public/assets/Images/8921360.jpg";
+import Image4 from "@/public/assets/Images/note.png";
 import Project from "./ui/Project";
 import Modal from "./ui/Modal";
 import { useCursor } from "./ui/Cursor";
@@ -11,15 +12,37 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import gsap from "gsap";
 import SplitType from "split-type";
 import { useGSAP } from "@gsap/react";
+import Button from "./ui/Button";
+import { ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ProjectsFramer = () => {
   const projects = [
-    { title: "C2 Montreal", src: Image1, color: "#000000" },
-    { title: "Office Studio", src: Image2, color: "#8C8C8C" },
-    { title: "Locomotive", src: Image3, color: "#EFE8D3" },
-    { title: "Silencio", src: Image1, color: "#706D63" },
+    {
+      title: "Fizzi 3D",
+      src: Image1,
+      color: "#000000",
+      link: "https://github.com/Vaibhav91one/Fizzi3d",
+    },
+    {
+      title: "Apple UI Clone",
+      src: Image2,
+      color: "#8C8C8C",
+      link: "https://github.com/Vaibhav91one/ThreeJS_GSAP_Project",
+    },
+    {
+      title: "WebScraping application",
+      src: Image3,
+      color: "#EFE8D3",
+      link: "https://github.com/Vaibhav91one/TrackWise",
+    },
+    {
+      title: "Advance Note Taking App",
+      src: Image4,
+      color: "#706D63",
+      link: "https://github.com/Vaibhav91one/noteit",
+    },
   ];
 
   const quotes = [
@@ -69,8 +92,6 @@ const ProjectsFramer = () => {
       },
     });
   }, []);
-
-
 
   useEffect(() => {
     if (!textRef.current) return;
@@ -130,8 +151,16 @@ const ProjectsFramer = () => {
             title={project.title}
             setModal={setModal}
             key={index}
+            link={project.link}
           />
         ))}
+        <a href="https://github.com/Vaibhav91one" target="_blank">
+          <Button
+            className="main-btn"
+            title="SEE MORE PROJECTS"
+            icon={ArrowRight}
+          />
+        </a>
       </div>
       <Modal modal={modal} projects={projects} />
     </div>

@@ -21,7 +21,7 @@ export default function Home() {
   }, [loading]);
   return (
     <>
-      {/* {loading && <Preloader setLoading={setLoading} />} */}
+      {loading && <Preloader setLoading={setLoading} />}
       {showContent && (
         <div>
           <main className="container-layout relative overflow-hidden scrollbar-hide">
@@ -39,7 +39,9 @@ export default function Home() {
               </section>
             </>
           </main>
+          <section id="footer">
           <Footer />
+          </section>
         </div>
       )}
     </>
