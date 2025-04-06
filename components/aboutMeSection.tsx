@@ -41,21 +41,19 @@ const aboutMeSection = (props: Props) => {
       }
 
       // Select the h1 element inside sectionRef safely
-      const titleElement = sectionRef.current.querySelector(
-        ".titleAbout"
-      ) as HTMLElement | null;
+      const titleElement = sectionRef.current?.querySelector(".titleAbout") as HTMLElement | null;
 
       if (titleElement) {
-        // Split h1 title into characters
+        // Only run this on screens wider than 768px (you can adjust this breakpoint)
         const splitTitle = new SplitType(titleElement, { types: "chars" });
-
+      
         if (splitTitle.chars) {
           t2.from(splitTitle.chars, {
-            y: 50, // Start from -50px on X-axis
+            y: 50,
             opacity: 0,
-            delay: 3, // Delay before animation starts
-            stagger: 0.05, // Stagger effect (each character animates 0.05s apart)
-            duration: 0.8, // Smooth transition duration
+            delay: 3,
+            stagger: 0.05,
+            duration: 0.8,
             ease: "power2.out",
             scrollTrigger: {
               trigger: splitTitle.chars,
@@ -66,6 +64,7 @@ const aboutMeSection = (props: Props) => {
           });
         }
       }
+      
     }
 
     // if (!textRef.current) return;
