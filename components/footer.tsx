@@ -7,6 +7,7 @@ import Magnetic from "./ui/Magnetic";
 import { Github, Twitter, Linkedin, Clock, X } from "lucide-react";
 import Spline from "@splinetool/react-spline";
 import TwitterIcon from "./svgComponents/Twitter";
+import Star from "./svgComponents/star";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,12 +35,12 @@ const footer = (props: Props) => {
       <div className="relative h-[calc(100vh+80vh)] bottom-[80vh]">
         <div className="bg-black text-white px-12 h-full w-full flex flex-col justify-between">
           <div className="h-[85vh] sticky top-[calc(100vh-80vh)]">
-            <div className="relative lg:mx-100 grid grid-cols-1 grid-rows-1 gap-4">
+            <div className="relative lg:mx-140 grid grid-cols-1 grid-rows-1 gap-4">
               <div className="mix-blend-hue">
                 <div className="flex justify-center flex-col items-center gap-10">
                   <div className="w-full border-b-2">
-                    <h1 className="text-center text-[8vw] leading-[0.8] mt-10 mb-20">
-                      Let’s work together
+                    <h1 className="text-center text-[5vw] leading-[0.8] mb-10">
+                       Let’s <Star/> work together
                     </h1>
                   </div>
                   <div className="flex justify-center flex-col lg:flex-row items-center gap-10">
@@ -98,7 +99,7 @@ const footer = (props: Props) => {
              
 
               {/* Version */}
-              <div className="flex items-center justify-center gap-12 italic text-gray-400 mt-2 sm:mt-0">
+              <div className="flex items-center justify-center gap-12 italic text-lg mt-2 sm:mt-0">
                 {version}
                 <div className="flex items-center gap-2">
                 <Clock size={16} />
