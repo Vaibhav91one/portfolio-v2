@@ -95,13 +95,16 @@ const footer = (props: Props) => {
               </div>
 
               {/* Live Clock */}
-              <div className="flex items-center gap-2 mt-2 sm:mt-0">
+             
+
+              {/* Version */}
+              <div className="flex items-center justify-center gap-12 italic text-gray-400 mt-2 sm:mt-0">
+                {version}
+                <div className="flex items-center gap-2">
                 <Clock size={16} />
                 <span>{time}</span>
               </div>
-
-              {/* Version */}
-              <div className="italic text-gray-400 mt-2 sm:mt-0">{version}</div>
+              </div>
             </footer>
             {/* <div className="absolute top-0 z-[-99] opacity-0 lg:opacity-50 pointer-events-none"> */}
               <Spline scene="https://prod.spline.design/M4S11dvJnr65ej9S/scene.splinecode" />
