@@ -35,7 +35,7 @@ const footer = (props: Props) => {
       <div className="relative h-[calc(100vh+80vh)] bottom-[80vh]">
         <div className="bg-black text-white px-12 h-full w-full flex flex-col justify-between">
           <div className="h-[85vh] sticky top-[calc(100vh-80vh)]">
-            <div className="relative lg:mx-140 grid grid-cols-1 grid-rows-1 gap-4">
+            <div className="relative lg:mx-120 grid grid-cols-1 grid-rows-1 gap-4">
               <div className="mix-blend-hue">
                 <div className="flex justify-center flex-col items-center gap-10">
                   <div className="w-full border-b-2">
@@ -45,12 +45,12 @@ const footer = (props: Props) => {
                   </div>
                   <div className="flex justify-center flex-col lg:flex-row items-center gap-10">
                     <Magnetic>
-                      <button className="p-4 border-2 hover:border-0 rounded-full transition-colors duration-200 hover:bg-gray-500 hover:text-white ">
+                      <button className="p-5 border-3 hover:border-0 rounded-full transition-colors duration-200 hover:bg-white hover:text-black ">
                         vaibhavtomar3003@gmail.com
                       </button>
                     </Magnetic>
                     <Magnetic>
-                      <button className="p-4 border-2 hover:border-0 rounded-full transition-colors duration-200 hover:bg-gray-500 hover:text-white ">
+                      <button className="p-4 border-3 hover:border-0 rounded-full transition-colors duration-200 hover:bg-white hover:text-black ">
                         +918894677224
                       </button>
                     </Magnetic>
