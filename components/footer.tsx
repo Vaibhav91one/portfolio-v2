@@ -45,7 +45,7 @@ const footer = (props: Props) => {
                   </div>
                   <div className="flex justify-center flex-col lg:flex-row items-center gap-10">
                     <Magnetic>
-                      <button className="p-5 border-3 hover:border-0 rounded-full transition-colors duration-200 hover:bg-white hover:text-black ">
+                      <button className="p-4 border-3 hover:border-0 rounded-full transition-colors duration-200 hover:bg-white hover:text-black ">
                         vaibhavtomar3003@gmail.com
                       </button>
                     </Magnetic>
