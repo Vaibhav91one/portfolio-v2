@@ -16,7 +16,7 @@ export default function Home() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowContent(true);
-    }, 500); // wait 1.5 seconds after preloader animation ends
+    }, 200); // Reduced delay from 500ms to 200ms for faster loading
     return () => clearTimeout(timeout); // cleanup
   }, [loading]);
   return (
