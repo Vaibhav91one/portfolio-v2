@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     title: "Vaibhav Tomar | Developer",
     description:
       "Explore my portfolio, learn about my work, and get in touch for opportunities. I build modern, fast, and user-focused websites using React, Next.js, and more.",
+    images: [
+      {
+        url: "/assets/Images/opengraph.png",
+        width: 1024,
+        height: 556,
+        alt: "Portfolio preview of Vaibhav Tomar's website",
+      },
+    ],
   },
 };
 
