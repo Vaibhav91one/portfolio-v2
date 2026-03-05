@@ -1,10 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image1 from "@/public/assets/Images/1082549.png";
-import Image2 from "@/public/assets/Images/2008451.jpg";
-import Image3 from "@/public/assets/Images/8921360.jpg";
-import Image4 from "@/public/assets/Images/note.png";
+import MapinlyImage from "@/public/assets/Images/mapinly.png";
+import LernpiImage from "@/public/assets/Images/lernpi.png";
+import FluxgenImage from "@/public/assets/Images/Fluxgen.png";
+import FizziImage from "@/public/assets/Images/fizzi.png";
+import AppleImage from "@/public/assets/Images/apple.png";
+import ZentryImage from "@/public/assets/Images/zentry.png";
+import TrackWiseImage from "@/public/assets/Images/track.jpg";
 import Project from "./ui/Project";
 import Modal from "./ui/Modal";
 import { useCursor } from "./ui/Cursor";
@@ -20,28 +23,46 @@ gsap.registerPlugin(ScrollTrigger);
 const ProjectsFramer = () => {
   const projects = [
     {
+      title: "Mapinly - Events & Community",
+      src: MapinlyImage,
+      color: "#706D63",
+      link: "https://map-inly-2-0.vercel.app/",
+    },
+    {
+      title: "LernPI - School Management",
+      src: LernpiImage,
+      color: "#8C8C8C",
+      link: "https://lernpi.ai/",
+    },
+    {
+      title: "FluxGen - Water Intelligence",
+      src: FluxgenImage,
+      color: "#6F8FAF",
+      link: "https://fluxgen.com/",
+    },
+    {
       title: "Fizzi 3D",
-      src: Image1,
+      src: FizziImage,
       color: "#000000",
-      link: "https://github.com/Vaibhav91one/Fizzi3d",
+      link: "https://fizzi3d-eight.vercel.app/",
     },
     {
       title: "Apple UI Clone",
-      src: Image2,
+      src: AppleImage,
       color: "#8C8C8C",
-      link: "https://github.com/Vaibhav91one/ThreeJS_GSAP_Project",
+      link: "https://three-js-gsap-project.vercel.app/",
     },
     {
       title: "WebScraping application",
-      src: Image3,
+      src: TrackWiseImage,
       color: "#EFE8D3",
-      link: "https://github.com/Vaibhav91one/TrackWise",
+      link: "https://track-wise-beryl.vercel.app/",
     },
     {
-      title: "Advance Note Taking App",
-      src: Image4,
+      title: "Zentry",
+      src: ZentryImage,
       color: "#706D63",
-      link: "https://github.com/Vaibhav91one/noteit",
+      link: "https://zentry-gules.vercel.app/",
     },
   ];
 
