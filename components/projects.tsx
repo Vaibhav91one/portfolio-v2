@@ -6,6 +6,7 @@ import LernpiImage from "@/public/assets/Images/lernpi.png";
 import FluxgenImage from "@/public/assets/Images/Fluxgen.png";
 import FizziImage from "@/public/assets/Images/fizzi.png";
 import AppleImage from "@/public/assets/Images/apple.png";
+import ArmourImage from "@/public/assets/Images/armour.png";
 import ZentryImage from "@/public/assets/Images/zentry.png";
 import TrackWiseImage from "@/public/assets/Images/track.jpg";
 import Project from "./ui/Project";
@@ -22,6 +23,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ProjectsFramer = () => {
   const projects = [
+    {
+      title: "Armour AI finance app",
+      src: ArmourImage,
+      color: "#706D63",
+      link: "https://yb-black.vercel.app/",
+    },
     {
       title: "Mapinly - Events & Community",
       src: MapinlyImage,
@@ -64,6 +71,7 @@ const ProjectsFramer = () => {
       color: "#706D63",
       link: "https://zentry-gules.vercel.app/",
     },
+   
   ];
 
   const quotes = [
