@@ -94,6 +94,7 @@ const HeroSection = () => {
             className="title absolute font-regular right-5 lg:right-20 flex justify-center items-end lg:items-start bottom-2 lg:bottom-auto
          flex-col text-lg lg:text-2xl gap-2"
           >
+            <p className=" text-white">Design Engineer</p>
               <p className=" text-white">Software Developer</p>
               <p className=" text-white">Cybersecurity Researcher</p>
               <p className=" text-white">Freelancer</p>

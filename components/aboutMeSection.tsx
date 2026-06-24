@@ -145,10 +145,10 @@ const aboutMeSection = (props: Props) => {
               ref={textRef}
               className="flex flex-col items-center gap-6 md:gap-8"
             >
-              <h1 className="text-lg md:text-xl lg:text-2xl font-regular">
-                A Swiss-army-knife(-ish!) developer with a love for playful,
-                minimal, and functional design.
-              </h1>
+                <h1 className="text-lg md:text-xl lg:text-2xl font-regular">
+                  A Swiss-army-knife(-ish!) Design Engineer — crafting playful,
+                  minimal, and functional experiences where design meets code.
+                </h1>
               <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
                 I solve problems through code — always learning, always
                 refining.
@@ -166,7 +166,7 @@ const aboutMeSection = (props: Props) => {
               </p>
             </div>
             <a
-              href="https://drive.google.com/file/d/1a-1PrSYjHAtb_VPHy1jDiPXmniV99qbl/view?usp=sharing"
+              href="https://docs.google.com/document/d/1drcijudRKJKAEk9YAr0Xl1AXGVXfuPHCqqzaTagNMgk/edit?usp=sharing"
               target="_blank"
             >
               <Button
