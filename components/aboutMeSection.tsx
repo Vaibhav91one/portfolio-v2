@@ -30,7 +30,6 @@ const aboutMeSection = (props: Props) => {
       const rotatingIcon = sectionRef.current.querySelector(
         ".rotate-icon"
       ) as HTMLElement | null;
-      console.log(rotatingIcon);
       if (rotatingIcon) {
         gsap.to(rotatingIcon, {
           rotation: 360,
@@ -51,7 +50,6 @@ const aboutMeSection = (props: Props) => {
           t2.from(splitTitle.chars, {
             y: 50,
             opacity: 0,
-            delay: 3,
             stagger: 0.05,
             duration: 0.8,
             ease: "power2.out",
@@ -126,29 +124,29 @@ const aboutMeSection = (props: Props) => {
     <>
       <div
         ref={sectionRef}
-        className="max-w-[1300px] h-[120vh] mx-auto min-h-screen flex items-center flex-col justify-center gap-20"
+        className="container-x min-h-screen py-24 flex items-center flex-col justify-center gap-20"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 grid-rows-1 gap-5 lg:gap-1">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
           <div className="flex items-center justify-center text-center">
-            <h1
+            <h2
               onMouseEnter={() => scaleCursor(8)}
               onMouseLeave={() => scaleRevertCursor()}
-              className="titleAbout text-clamp-about"
+              className="titleAbout text-[clamp(2.5rem,12vw,6rem)] lg:text-[5.5vw] whitespace-nowrap"
             >
               <span className="animate-slow-spin inline-block">✺</span>{" "}
-              <span className="text-nowrap">ABOUT </span> ME
-            </h1>
+              ABOUT ME
+            </h2>
           </div>
 
-          <div className="flex flex-col items-center lg:items-start  justify-center px-6 py-12 lg:px-20 max-w-5xl mx-auto">
+          <div className="flex flex-col items-center lg:items-start justify-center py-12">
             <div
               ref={textRef}
               className="flex flex-col items-center gap-6 md:gap-8"
             >
-                <h1 className="text-lg md:text-xl lg:text-2xl font-regular">
+                <p className="text-lg md:text-xl lg:text-2xl font-regular">
                   A Swiss-army-knife(-ish!) Design Engineer — crafting playful,
                   minimal, and functional experiences where design meets code.
-                </h1>
+                </p>
               <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl">
                 I solve problems through code — always learning, always
                 refining.
@@ -165,16 +163,13 @@ const aboutMeSection = (props: Props) => {
                 to new opportunities.
               </p>
             </div>
-            <a
+            <Button
               href="https://docs.google.com/document/d/1drcijudRKJKAEk9YAr0Xl1AXGVXfuPHCqqzaTagNMgk/edit?usp=sharing"
               target="_blank"
-            >
-              <Button
-                className="main-btn  btnRef mt-16 "
-                title="GET MY RESUME"
-                icon={Link}
-              />
-            </a>
+              className="main-btn mt-16"
+              title="GET MY RESUME"
+              icon={Link}
+            />
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ const nextConfig : NextConfig = {
     return config;
   },
   images: {
+    formats: ["image/avif", "image/webp"],
     dangerouslyAllowSVG: true, // Allows SVGs in next/image
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },

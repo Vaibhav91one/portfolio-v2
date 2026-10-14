@@ -9,7 +9,7 @@ export default function Magnetic({ children }: MagneticProps) {
   const magnetic = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!magnetic.current) return;
+    if (!magnetic.current || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     const xTo = gsap.quickTo(magnetic.current, 'x', {
       duration: 1,

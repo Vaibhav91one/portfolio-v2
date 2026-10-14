@@ -14,33 +14,44 @@ const CursorContext = createContext<CursorContextType | undefined>(undefined);
 
 export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
   const cursorRef = useRef<any>(null);
+  const xTo = useRef<((v: number) => void) | null>(null);
+  const yTo = useRef<((v: number) => void) | null>(null);
 
   useEffect(() => {
     const cursor = cursorRef.current;
-    if (!cursor) return;
+    // touch / pen: no custom cursor (it would chase taps)
+    if (!cursor || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     gsap.set(cursor, { opacity: 0 });
+    xTo.current = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "power2.out" });
+    yTo.current = gsap.quickTo(cursor, "y", { duration: 0.1, ease: "power2.out" });
 
+    // Fade in once on entry, not a new tween on every mousemove
+    let shown = false;
     const handleMouseMove = (e: MouseEvent) => {
       moveCursor(e.clientX, e.clientY);
-      gsap.to(cursor, { opacity: 1, duration: 0.3, ease: "power2.out" });
+      if (!shown) {
+        shown = true;
+        gsap.to(cursor, { opacity: 1, duration: 0.3, ease: "power2.out" });
+      }
+    };
+    const handleMouseLeave = () => {
+      shown = false;
+      gsap.to(cursor, { opacity: 0, duration: 0.3 });
     };
 
     document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", () => gsap.to(cursor, { opacity: 0, duration: 0.3 }));
+    document.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, []);
 
   const moveCursor = (x: number, y: number) => {
-    gsap.to(cursorRef.current, {
-      x: x - 10,
-      y: y - 10,
-      duration: 0.1,
-      ease: "power2.out",
-    });
+    xTo.current?.(x - 10);
+    yTo.current?.(y - 10);
   };
 
   const scaleCursor = (scale: number) => {
@@ -64,7 +75,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 h-[20px] w-[20px] bg-gray-200 rounded-full z-50 pointer-events-none mix-blend-difference shadow"
+        className="fixed top-0 left-0 h-[20px] w-[20px] bg-gray-200 rounded-full z-50 pointer-events-none mix-blend-difference shadow opacity-0"
       />
     </CursorContext.Provider>
   );
