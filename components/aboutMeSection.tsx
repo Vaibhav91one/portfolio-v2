@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { useCursor } from "./ui/Cursor";
 import Button from "./ui/Button";
-import { ArrowRight, Link } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import DNA from "./svgComponents/dna";
 import Compass from "./svgComponents/compass";
 import Star from "./svgComponents/star";
@@ -164,11 +164,10 @@ const aboutMeSection = (props: Props) => {
               </p>
             </div>
             <Button
-              href="https://docs.google.com/document/d/1drcijudRKJKAEk9YAr0Xl1AXGVXfuPHCqqzaTagNMgk/edit?usp=sharing"
-              target="_blank"
+              href="mailto:vaibhavtomar3003@gmail.com"
               className="main-btn mt-16"
-              title="GET MY RESUME"
-              icon={Link}
+              title="GET IN TOUCH"
+              icon={Mail}
             />
           </div>
         </div>
