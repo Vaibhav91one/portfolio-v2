@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 interface PreloaderProps {
@@ -11,7 +11,6 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
   const preloaderRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
   // Array of "Welcome" in different languages
   const messages = [
@@ -28,46 +27,51 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
   ];
 
   useEffect(() => {
+    // Repeat visit in this tab, or reduced motion: skip straight to the site
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem("seenPreloader") === "1";
+    } catch {}
+    if (seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setLoading(false);
+      return;
+    }
+
     // Disable scrolling
     document.body.style.overflow = "hidden";
 
     const tl = gsap.timeline({
       onComplete: () => {
+        try {
+          sessionStorage.setItem("seenPreloader", "1");
+        } catch {}
         setLoading(false);
         // Re-enable scrolling after animation
         document.body.style.overflow = "";
       },
     });
 
-    // Animate preloader opacity in
-    tl.to(preloaderRef.current, { opacity: 1, duration: 0.3 });
-
-    // Create smooth continuous sliding animation from bottom
-    const totalDuration = 5; // Total duration for all messages
+    // Continuous slide through every message
+    const totalDuration = 5;
     const messageDuration = totalDuration / messages.length;
 
-    // Start with the container positioned to show the first message at the bottom
     gsap.set(messagesRef.current, { y: `${(messages.length - 1) * 80}px` });
 
     messages.forEach((_, i) => {
-      // Set the current message index
-      tl.call(() => setCurrentIndex(i), [], i * messageDuration);
-      
-      // Smooth continuous sliding animation from bottom to top
       tl.to(messagesRef.current, {
-        y: `-${i * 80}px`, // Move up by 80px for each message
+        y: `-${i * 80}px`,
         duration: messageDuration,
-        ease: "power2.inOut", // Smooth, no springy effect
+        ease: "power2.inOut",
       }, i * messageDuration);
     });
 
-    // Final exit animation - reduced delay
+    // Exit: slide the panel up with the curved bottom edge
     tl.to(preloaderRef.current, {
-      y: "-100%",
-      duration: 1,
-      delay: 0.3, // Reduced delay
+      yPercent: -100,
       borderBottomLeftRadius: "50%",
       borderBottomRightRadius: "50%",
+      duration: 1,
+      delay: 0.3,
       ease: "power2.inOut",
     });
 
@@ -81,7 +85,8 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
   return (
     <div
       ref={preloaderRef}
-      className="fixed inset-0 bg-black text-white opacity-0"
+      data-preloader
+      className="fixed inset-0 bg-black text-white"
       style={{ zIndex: 9999 }}
     >
       <div 
@@ -98,7 +103,9 @@ const Preloader: React.FC<PreloaderProps> = ({ setLoading }) => {
           className="relative"
           style={{ 
             height: `${messages.length * 80}px`, // Total height for all messages
-            transform: 'translateY(0%)' // This will be animated
+            // Start where the timeline starts (list pushed below the window), so the server-rendered
+            // first frame doesn't flash "Welcome" before it slides in
+            transform: `translateY(${(messages.length - 1) * 80}px)`,
           }}
         >
           {messages.map((message, index) => {

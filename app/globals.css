@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Shared page width: side gutter on every screen, capped at 1800px */
+@utility container-x {
+  @apply mx-auto w-full max-w-[1800px] px-5 md:px-10 lg:px-20;
+}
+
 @layer utilities {
 
   .container-layout {
@@ -24,10 +29,6 @@
 
   .text-clamp-heading {
     font-size: clamp(2rem, 10vw, 300px);
-  }
-
-  .text-clamp-about {
-    font-size: clamp(2rem, 9vw, 300px);
   }
 
   .text-clamp-xl {
@@ -56,19 +57,17 @@
 }
 
 
+@theme {
+  --ease-snappy: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #f5f5f5;
-  }
-
-
+:root {
+  --background: #f5f5f5;
 }
 
 body {
@@ -77,24 +76,11 @@ body {
   cursor: default;
 }
 
-/* styles/globals.css */
 
-/* Hide scrollbar but keep scroll functionality */
-html,
-body {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+html[data-seen] [data-preloader] {
   display: none;
-  /* Chrome, Safari, Opera */
 }
-
-
 
 @keyframes slow-spin {
   from {
@@ -108,4 +94,11 @@ body::-webkit-scrollbar {
 
 .animate-slow-spin {
   animation: slow-spin 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slow-spin,
+  .animate-rotate-slow {
+    animation: none;
+  }
 }

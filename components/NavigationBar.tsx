@@ -71,10 +71,10 @@ const NavigationBar = (props: Props) => {
 
   return (
     <>
-      <nav className="hidden md:flex absolute z-10 w-full justify-between items-center text-xl my-5 px-5 text-white">
+      <nav className="container-x hidden md:flex absolute z-10 inset-x-0 justify-between items-center text-xl my-5 text-white">
         {/* LEFT SIDE: Branding */}
         <div className="flex items-center">
-          <div className="flex items-center gap-2 -mt-3 ml-2 uppercase leading-none tracking-tight">
+          <div className="flex items-center gap-2 uppercase leading-none tracking-tight">
             <AnimatedParagraph description="© Code By Vaibhav Tomar" />
           </div>
         </div>
@@ -82,7 +82,7 @@ const NavigationBar = (props: Props) => {
         {/* RIGHT SIDE: Nav Links */}
         <ul className="flex flex-row items-center gap-10">
           {navItems.map((item, i) => (
-            <li key={item.label} className="relative mt-2">
+            <li key={item.label} className="relative">
               <a
                 href={`#${item.id}`}
                 onClick={(e) => {
@@ -96,12 +96,12 @@ const NavigationBar = (props: Props) => {
                   linksRef.current[i] = el;
                 }}
                 style={{ perspective: "380px" }}
-                className="flex flex-col items-center outline-none focus:outline-none"
+                className="relative flex flex-col items-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
               >
                 <span className="nav-text nav-text--bold uppercase leading-none tracking-tight">
                   {item.label}
                 </span>
-                <span className="nav-text nav-text--front uppercase leading-none tracking-tight opacity-0">
+                <span className="nav-text nav-text--front absolute left-0 top-full uppercase leading-none tracking-tight opacity-0">
                   {item.label}
                 </span>
               </a>

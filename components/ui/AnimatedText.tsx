@@ -19,7 +19,7 @@ const AnimatedParagraph = ({ description }: { description: string }) => {
     gsap.set(textRef.current, { opacity: 1 });
 
     // Initially hide lines
-    gsap.set(splitLines.lines, { opacity: 0, x: 50 });
+    gsap.set(splitLines.lines, { opacity: 0 });
 
     // Staggered fade-in effect for lines
     gsap.to(splitLines.lines, {

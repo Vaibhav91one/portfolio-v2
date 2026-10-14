@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { LucideIcon } from "lucide-react";
 import gsap from "gsap";
 
@@ -9,57 +9,60 @@ type Props = {
   icon?: LucideIcon;
   preIcon?: LucideIcon;
   className?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+  href?: string;
+  target?: string;
+};
 
-const Button = forwardRef<HTMLButtonElement, Props>(
-  ({ title, icon: Icon, preIcon: PreIcon,  className, ...props }, ref) => {
-    const handleMouseEnter = () => {
-      gsap.to(".anim", {
-        left: "0%", // Moves background to cover the button
-        duration: 0.4,
-        ease: "power2.out",
-      });
+// Original hover (391d3dc): black fill slides in from the left, exits out to the right, then resets.
+// Scoped to this button's own refs (the original targeted every `.anim` on the page).
+const Button = ({ title, icon: Icon, preIcon: PreIcon, className, href, target }: Props) => {
+  const fill = useRef<HTMLSpanElement>(null);
+  const content = useRef<HTMLSpanElement>(null);
 
-      gsap.to(".text", {
-        color: "#fff", // Change text color to white
-        duration: 0.4,
-        ease: "power2.out",
-      });
-    };
+  const onEnter = () => {
+    gsap.to(fill.current, { xPercent: 100, duration: 0.4, ease: "power2.out" });
+    gsap.to(content.current, { color: "#fff", duration: 0.4, ease: "power2.out" });
+  };
+  const onLeave = () => {
+    gsap.to(fill.current, {
+      xPercent: 200,
+      ease: "power2.out",
+      onComplete: () => {
+        gsap.set(fill.current, { xPercent: 0 });
+      },
+    });
+    gsap.to(content.current, { color: "#000", ease: "power2.out" });
+  };
 
-    const handleMouseLeave = () => {
-      gsap.to(".anim", {
-        left: "100%", // Moves background back out the same way it entered
-        ease: "power2.out",
-        onComplete: () => {
-          gsap.set(".anim", { left: "-100%" });
-        },
-      });
+  const cls = `relative isolate flex items-center gap-2 rounded-full border-1 overflow-hidden px-6 py-3 text-nowrap focus-visible:outline-2 focus-visible:outline-offset-4 ${className}`;
+  const inner = (
+    <>
+      {/* starts one width to the left (-100%); xPercent 100 = covering, 200 = gone right */}
+      <span ref={fill} className="absolute top-0 -left-full h-full w-full bg-black -z-10" />
+      <span ref={content} className="flex items-center gap-2 text-black">
+        {PreIcon && <PreIcon size={20} />}
+        <span className="text-[13px] font-semibold">{title}</span>
+        {Icon && <Icon size={20} />}
+      </span>
+    </>
+  );
 
-      gsap.to(".text", {
-        color: "#000", // Change text color back to black
-        ease: "power2.out",
-      });
-    };
-
-    return (
-      <button
-        id="btn"
-        ref={ref}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className={` relative flex items-center gap-2 rounded-full border-1 overflow-hidden px-6 py-3 text-nowrap ${className}`}
-        {...props}
-      >
-        {PreIcon && <PreIcon className="text" size={20} />}
-        <div className=" anim absolute top-0 left-[-100%] w-full h-full bg-[#000000]  -z-10"></div>
-        <span className="text-[13px] font-semibold text text-black">{title}</span>
-        {Icon && <Icon className="text" size={20} />}
-      </button>
-    );
-  }
-);
-
-Button.displayName = "Button";
+  return href ? (
+    <a
+      href={href}
+      target={target}
+      rel={target === "_blank" ? "noopener noreferrer" : undefined}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      className={cls}
+    >
+      {inner}
+    </a>
+  ) : (
+    <button onMouseEnter={onEnter} onMouseLeave={onLeave} className={cls}>
+      {inner}
+    </button>
+  );
+};
 
 export default Button;

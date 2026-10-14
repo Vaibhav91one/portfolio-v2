@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SVGProps } from "react";
 const Star = (props: SVGProps<SVGSVGElement>) => (
-<div className="w-18 h-18 inline-block py-2">
+<div className="inline-block w-[0.8em] h-[0.8em] align-[-0.05em]">
 
   <svg
     viewBox="0 0 512 512"
