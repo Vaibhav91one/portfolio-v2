@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
-import ProfilePicture from "../public/assets/Images/no Bg.png";
+import ProfilePicture from "../public/assets/Images/portfolio.png";
 import Magnetic from "./ui/Magnetic";
 import dynamic from "next/dynamic";
 import type { Paint } from "./ui/Displacement";
@@ -120,7 +120,7 @@ const HeroSection = () => {
     }
   });
 
-  // Redraw the gray backdrop + photos (where the DOM lays them out) into the displacement canvas
+  // Redraw the gray backdrop + photo (where the DOM lays it out) into the displacement canvas
   const paintHero: Paint = (ctx, width, height) => {
     const bg = bgRef.current;
     const photos = photosRef.current;
@@ -131,14 +131,7 @@ const HeroSection = () => {
     const imgs = [...photos.querySelectorAll("img")].filter((img) => img.offsetParent !== null && img.naturalWidth > 0);
     for (const img of imgs) {
       const r = img.getBoundingClientRect();
-      const flipped = img.classList.contains("rotate-180");
-      ctx.save();
-      ctx.filter = "grayscale(1)";
-      if (flipped) ctx.globalCompositeOperation = "luminosity";
-      ctx.translate(r.left - box.left + r.width / 2, r.top - box.top + r.height / 2);
-      if (flipped) ctx.rotate(Math.PI);
-      ctx.drawImage(img, -r.width / 2, -r.height / 2, r.width, r.height);
-      ctx.restore();
+      ctx.drawImage(img, r.left - box.left, r.top - box.top, r.width, r.height);
     }
   };
 
@@ -150,29 +143,18 @@ const HeroSection = () => {
         <div ref={bgRef} className="relative flex justify-center max-h-[100vh] h-[100vh] items-center overflow-hidden bg-gray-500">
           <div
             ref={photosRef}
-            className={`flex self-end lg:self-center justify-center items-center pointer-events-none ${fxReady ? "invisible" : ""}`}
+            className={`flex self-end justify-center items-center pointer-events-none ${fxReady ? "invisible" : ""}`}
           >
             <Image
               src={ProfilePicture}
               alt="Vaibhav Tomar"
               priority
               fetchPriority="high"
-              width={550}
-              height={978}
-              sizes="(max-width: 1024px) 100vw, 550px"
-              quality={60}
-              style={{ height: "auto" }}
-              className="h-auto object-cover grayscale -translate-x-10 lg:-translate-x-0"
-            />
-            <Image
-              src={ProfilePicture}
-              alt=""
-              width={550}
-              height={978}
-              sizes="550px"
-              quality={60}
-              style={{ height: "auto" }}
-              className="hidden lg:block h-auto object-cover grayscale transform rotate-180 mix-blend-luminosity"
+              width={1792}
+              height={1008}
+              sizes="(max-width: 1024px) 180vh, 1600px"
+              quality={70}
+              className="h-[85vh] w-auto max-w-none shrink-0"
             />
           </div>
           {photosLoaded && (
