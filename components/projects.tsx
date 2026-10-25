@@ -38,13 +38,13 @@ const ProjectsFramer = () => {
       title: "Armour AI finance app",
       src: ArmourImage,
       color: "#706D63",
-      link: "https://yb-black.vercel.app/",
+      link: "https://armour.vaibhav.quest/",
     },
     {
       title: "Mapinly - Events & Community",
       src: MapinlyImage,
       color: "#706D63",
-      link: "https://map-inly-2-0.vercel.app/",
+      link: "https://mapinly.vaibhav.quest/",
     },
     {
       title: "LernPI - School Management",
