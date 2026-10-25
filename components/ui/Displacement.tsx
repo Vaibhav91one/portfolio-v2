@@ -31,6 +31,22 @@ export type DisplacementOptions = {
   scramble?: number;
 };
 
+/** A cut-out photo drawn as a real 3D mesh (grayscale depth map pushes vertices toward the camera) that
+ * leans toward the cursor, like landonorris.com. Its box must match the DOM photo's box. */
+export type Head = {
+  image: TexImageSource;
+  /** Grayscale, white = near. Same aspect as `image`. */
+  depth: TexImageSource;
+  /** Photo box in CSS px relative to the canvas. */
+  getRect: () => { x: number; y: number; w: number; h: number } | null;
+  /** Max rotation in radians at the canvas edge. */
+  intensity?: number;
+  /** How far (in plane heights) full depth range pushes vertices. */
+  depthScale?: number;
+  /** Camera field of view in degrees. Small = nearly orthographic. */
+  fov?: number;
+};
+
 /** Must be synchronous (no awaits): a paint that resumes after another started would draw twice onto the same canvas. */
 export type Paint = (ctx: CanvasRenderingContext2D, width: number, height: number) => void;
 
@@ -64,6 +80,7 @@ in vec2 vUv;
 out vec4 outColor;
 uniform sampler2D uContent;
 uniform sampler2D uField;
+uniform sampler2D uHead;
 uniform vec2 uResolution;
 uniform float uShift;
 uniform float uAberration;
@@ -77,6 +94,13 @@ float hash(vec2 p) {
   return fract((q.x + q.y) * q.z);
 }
 
+// 3D head mesh (premultiplied) over the painted backdrop
+vec4 scene(vec2 uv) {
+  vec4 b = texture(uContent, uv);
+  vec4 h = texture(uHead, vec2(uv.x, 1.0 - uv.y)); // the FBO is stored bottom-up
+  return h + b * (1.0 - h.a);
+}
+
 void main () {
   vec2 cuv = vec2(vUv.x, 1.0 - vUv.y);
   vec2 offset = texture(uField, cuv).rg;
@@ -84,9 +108,9 @@ void main () {
   float ab = uAberration * 0.08;
   vec2 lo = vec2(0.001);
   vec2 hi = vec2(0.999);
-  vec4 cr = texture(uContent, clamp(cuv - push * (1.0 + ab), lo, hi));
-  vec4 cg = texture(uContent, clamp(cuv - push, lo, hi));
-  vec4 cb = texture(uContent, clamp(cuv - push * (1.0 - ab), lo, hi));
+  vec4 cr = scene(clamp(cuv - push * (1.0 + ab), lo, hi));
+  vec4 cg = scene(clamp(cuv - push, lo, hi));
+  vec4 cb = scene(clamp(cuv - push * (1.0 - ab), lo, hi));
   float alpha = (cr.a + cg.a + cb.a) / 3.0;
   vec3 col = vec3(cr.r * cr.a, cg.g * cg.a, cb.b * cb.a);
   col = min(col, vec3(alpha));
@@ -99,6 +123,41 @@ void main () {
   outColor = vec4(col, alpha);
 }`;
 
+const HEAD_VERT = `#version 300 es
+precision highp float;
+layout(location = 0) in vec2 aUv;
+uniform sampler2D uDepth;
+uniform float uAspect;
+uniform float uScale;
+uniform float uF;
+uniform float uDist;
+uniform vec2 uRot;
+uniform vec2 uSway;
+out vec2 vUv;
+void main () {
+  vUv = aUv;
+  // depth is centred on 0.5 so the average magnification (photo size) is unchanged
+  float z = (textureLod(uDepth, aUv, 0.0).r - 0.5) * uScale;
+  vec3 p = vec3((aUv.x - 0.5) * uAspect, 0.5 - aUv.y, z);
+  float cy = cos(uRot.y), sy = sin(uRot.y);
+  p = vec3(cy * p.x + sy * p.z, p.y, -sy * p.x + cy * p.z);
+  float cx = cos(uRot.x), sx = sin(uRot.x);
+  p = vec3(p.x, cx * p.y - sx * p.z, sx * p.y + cx * p.z);
+  p.xy -= uSway;
+  gl_Position = vec4(p.x * uF / uAspect, p.y * uF, 0.0, uDist - p.z);
+}`;
+
+const HEAD_FRAG = `#version 300 es
+precision highp float;
+in vec2 vUv;
+out vec4 outColor;
+uniform sampler2D uPhoto;
+void main () {
+  outColor = texture(uPhoto, vUv);
+}`;
+
+const HEAD_GRID = 128; // segments per side
+
 const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
 
 /** Starts the effect on `output`; returns a cleanup fn, or null when WebGL2 is unavailable. */
@@ -107,6 +166,7 @@ function createDisplacement(
   paint: Paint,
   config: Required<DisplacementOptions>,
   onReady?: () => void,
+  head?: Head,
 ): (() => void) | null {
   const gl = output.getContext("webgl2", {
     alpha: true,
@@ -161,6 +221,141 @@ function createDisplacement(
   const contentTexture = makeTexture(gl.LINEAR);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
   const fieldTexture = makeTexture(gl.NEAREST);
+
+  // ---- 3D head pass: renders the displaced photo mesh into headTexture; the main pass composites it over `paint` ----
+  const headTexture = makeTexture(gl.LINEAR);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
+  let headFbo: WebGLFramebuffer | null = null;
+  let headProgram: WebGLProgram | null = null;
+  let headVao: WebGLVertexArrayObject | null = null;
+  let headIndexCount = 0;
+  const headBuffers: WebGLBuffer[] = [];
+  const headTextures: WebGLTexture[] = [];
+  const headU: Record<string, WebGLUniformLocation | null> = {};
+  let photoTexture: WebGLTexture | null = null;
+  let depthTexture: WebGLTexture | null = null;
+  const hd = { x: 0, y: 0, tx: 0, ty: 0 }; // eased cursor in -1..1, y up (like landonorris.com)
+
+  if (head) {
+    const vs = compile(gl.VERTEX_SHADER, HEAD_VERT);
+    const fs = compile(gl.FRAGMENT_SHADER, HEAD_FRAG);
+    headProgram = gl.createProgram()!;
+    gl.attachShader(headProgram, vs);
+    gl.attachShader(headProgram, fs);
+    gl.linkProgram(headProgram);
+    gl.deleteShader(vs);
+    gl.deleteShader(fs);
+    for (const name of ["uDepth", "uPhoto", "uAspect", "uScale", "uF", "uDist", "uRot", "uSway"]) {
+      headU[name] = gl.getUniformLocation(headProgram, name);
+    }
+
+    const n = HEAD_GRID + 1;
+    const uvs = new Float32Array(n * n * 2);
+    for (let j = 0; j < n; j++) {
+      for (let i = 0; i < n; i++) {
+        uvs[2 * (j * n + i)] = i / HEAD_GRID;
+        uvs[2 * (j * n + i) + 1] = j / HEAD_GRID;
+      }
+    }
+    const idx = new Uint32Array(HEAD_GRID * HEAD_GRID * 6);
+    let k = 0;
+    for (let j = 0; j < HEAD_GRID; j++) {
+      for (let i = 0; i < HEAD_GRID; i++) {
+        const a = j * n + i;
+        idx.set([a, a + 1, a + n, a + 1, a + n + 1, a + n], k);
+        k += 6;
+      }
+    }
+    headIndexCount = idx.length;
+    headVao = gl.createVertexArray()!;
+    gl.bindVertexArray(headVao);
+    const uvBuf = gl.createBuffer()!;
+    const idxBuf = gl.createBuffer()!;
+    headBuffers.push(uvBuf, idxBuf);
+    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, uvs, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, idxBuf);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idx, gl.STATIC_DRAW);
+    gl.bindVertexArray(null);
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad); // restore the fullscreen quad as the default-VAO attribute source
+
+    const upload = (src: TexImageSource, mips: boolean, premultiply: boolean) => {
+      const tex = gl.createTexture()!;
+      headTextures.push(tex);
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, premultiply);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+      if (mips) gl.generateMipmap(gl.TEXTURE_2D);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mips ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      return tex;
+    };
+    photoTexture = upload(head.image, true, true);
+    depthTexture = upload(head.depth, false, false);
+    headFbo = gl.createFramebuffer()!;
+  }
+
+  function allocHead() {
+    if (!headFbo) return;
+    gl!.bindTexture(gl!.TEXTURE_2D, headTexture);
+    gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, output.width, output.height, 0, gl!.RGBA, gl!.UNSIGNED_BYTE, null);
+    gl!.bindFramebuffer(gl!.FRAMEBUFFER, headFbo);
+    gl!.framebufferTexture2D(gl!.FRAMEBUFFER, gl!.COLOR_ATTACHMENT0, gl!.TEXTURE_2D, headTexture, 0);
+    gl!.bindFramebuffer(gl!.FRAMEBUFFER, null);
+  }
+
+  function stepHead(delta: number): boolean {
+    const k = 1 - Math.exp(-2.5 * delta); // ≈4%/frame at 60fps, same easing as landonorris.com
+    hd.x += (hd.tx - hd.x) * k;
+    hd.y += (hd.ty - hd.y) * k;
+    return Math.abs(hd.tx - hd.x) + Math.abs(hd.ty - hd.y) > 0.0005;
+  }
+
+  function renderHead() {
+    if (!head || !headFbo || !headProgram) return;
+    const r = head.getRect();
+    gl!.bindFramebuffer(gl!.FRAMEBUFFER, headFbo);
+    gl!.viewport(0, 0, output.width, output.height);
+    gl!.clearColor(0, 0, 0, 0);
+    gl!.clear(gl!.COLOR_BUFFER_BIT);
+    if (r && r.w > 1 && r.h > 1) {
+      const fov = ((head.fov ?? 15) * Math.PI) / 180;
+      const f = 1 / Math.tan(fov / 2);
+      const intensity = head.intensity ?? 0.075;
+      gl!.viewport(
+        Math.round(r.x * dpr),
+        Math.round(output.height - (r.y + r.h) * dpr),
+        Math.round(r.w * dpr),
+        Math.round(r.h * dpr),
+      );
+      gl!.useProgram(headProgram);
+      gl!.enable(gl!.BLEND);
+      gl!.blendFunc(gl!.ONE, gl!.ONE_MINUS_SRC_ALPHA);
+      gl!.activeTexture(gl!.TEXTURE0);
+      gl!.bindTexture(gl!.TEXTURE_2D, photoTexture);
+      gl!.uniform1i(headU.uPhoto, 0);
+      gl!.activeTexture(gl!.TEXTURE1);
+      gl!.bindTexture(gl!.TEXTURE_2D, depthTexture);
+      gl!.uniform1i(headU.uDepth, 1);
+      gl!.uniform1f(headU.uAspect, r.w / r.h);
+      gl!.uniform1f(headU.uScale, head.depthScale ?? 0.25);
+      gl!.uniform1f(headU.uF, f);
+      gl!.uniform1f(headU.uDist, 0.5 * f); // a flat plane then exactly fills the viewport
+      const tilt = window.innerWidth > 768 ? 1 : 0; // vertical tilt only on larger screens, like the reference
+      gl!.uniform2f(headU.uRot, -hd.y * intensity * tilt, hd.x * intensity);
+      gl!.uniform2f(headU.uSway, hd.x * 0.02, -hd.y * 0.02 * tilt);
+      gl!.bindVertexArray(headVao);
+      gl!.drawElements(gl!.TRIANGLES, headIndexCount, gl!.UNSIGNED_INT, 0);
+      gl!.bindVertexArray(null);
+      gl!.disable(gl!.BLEND);
+    }
+    gl!.bindFramebuffer(gl!.FRAMEBUFFER, null);
+  }
 
   let cols = 0;
   let rows = 0;
@@ -217,6 +412,7 @@ function createDisplacement(
     output.width = Math.round(outW * dpr);
     output.height = Math.round(outH * dpr);
     syncGrid();
+    allocHead();
     repaint();
   }
 
@@ -266,6 +462,7 @@ function createDisplacement(
 
   let time = 0;
   function render() {
+    renderHead();
     if (fieldDirty) {
       fieldDirty = false;
       gl!.bindTexture(gl!.TEXTURE_2D, fieldTexture);
@@ -279,6 +476,9 @@ function createDisplacement(
     gl!.activeTexture(gl!.TEXTURE1);
     gl!.bindTexture(gl!.TEXTURE_2D, fieldTexture);
     gl!.uniform1i(uniforms.uField, 1);
+    gl!.activeTexture(gl!.TEXTURE2);
+    gl!.bindTexture(gl!.TEXTURE_2D, headTexture);
+    gl!.uniform1i(uniforms.uHead, 2);
     gl!.uniform2f(uniforms.uResolution, output.width, output.height);
     gl!.uniform1f(uniforms.uShift, clamp(config.shift, 0, 4));
     gl!.uniform1f(uniforms.uAberration, clamp(config.aberration, 0, 3));
@@ -305,7 +505,7 @@ function createDisplacement(
     const delta = Math.min((now - lastTime) / 1000, 1 / 30);
     lastTime = now;
     time += delta;
-    const alive = stepSimulation(delta);
+    const alive = stepSimulation(delta) || (head ? stepHead(delta) : false);
     render();
     if (!alive && !needsFrame) {
       running = false;
@@ -356,9 +556,14 @@ function createDisplacement(
     mouse.prevY = y;
     mouse.x = x;
     mouse.y = y;
+    hd.tx = x * 2 - 1;
+    hd.ty = -(y * 2 - 1);
     start();
   }
   function onPointerLeave() {
+    hd.tx = 0;
+    hd.ty = 0;
+    start();
     tracking = false;
     mouse.vX = 0;
     mouse.vY = 0;
@@ -399,6 +604,12 @@ function createDisplacement(
     pointerHost.removeEventListener("pointercancel", onPointerLeave);
     gl.deleteTexture(contentTexture);
     gl.deleteTexture(fieldTexture);
+    gl.deleteTexture(headTexture);
+    headTextures.forEach((t) => gl.deleteTexture(t));
+    headBuffers.forEach((b) => gl.deleteBuffer(b));
+    if (headVao) gl.deleteVertexArray(headVao);
+    if (headFbo) gl.deleteFramebuffer(headFbo);
+    if (headProgram) gl.deleteProgram(headProgram);
     gl.deleteProgram(program);
     gl.deleteShader(vertexShader);
     gl.deleteShader(fragmentShader);
@@ -409,20 +620,22 @@ function createDisplacement(
 type Props = DisplacementOptions & {
   /** Draws the scene that gets displaced, in CSS pixels. Re-run on resize. */
   paint: Paint;
+  /** Optional 3D cut-out portrait drawn over `paint` (see `Head`). */
+  head?: Head;
   /** Fires once the first frame is on screen, so the caller can hide its DOM fallback. */
   onReady?: () => void;
   className?: string;
 };
 
 /** Absolutely-positioned canvas that fills its (positioned) parent. Skipped under reduced motion. */
-export default function Displacement({ paint, onReady, className, ...options }: Props) {
+export default function Displacement({ paint, head, onReady, className, ...options }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
-  const latest = useRef({ paint, onReady, options });
+  const latest = useRef({ paint, head, onReady, options });
 
   useEffect(() => {
     if (!ref.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const { paint, onReady, options } = latest.current;
-    return createDisplacement(ref.current, paint, { ...DEFAULTS, ...options }, onReady) ?? undefined;
+    const { paint, head, onReady, options } = latest.current;
+    return createDisplacement(ref.current, paint, { ...DEFAULTS, ...options }, onReady, head) ?? undefined;
   }, []);
 
   return (

@@ -7,9 +7,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import ProfilePicture from "../public/assets/Images/portfolio.png";
+import depthSrc from "../public/assets/Images/portfolio-depth.png";
 import Magnetic from "./ui/Magnetic";
 import dynamic from "next/dynamic";
-import type { Paint } from "./ui/Displacement";
+import type { Head, Paint } from "./ui/Displacement";
 
 // WebGL effect is cursor-driven: load its code only on mouse devices, after the photos are in
 const Displacement = dynamic(() => import("./ui/Displacement"), { ssr: false });
@@ -23,6 +24,7 @@ const HeroSection = () => {
   const track = useRef<HTMLDivElement | null>(null);
   const bgRef = useRef<HTMLDivElement | null>(null);
   const photosRef = useRef<HTMLDivElement | null>(null);
+  const depthImg = useRef<HTMLImageElement | null>(null);
   const [photosLoaded, setPhotosLoaded] = useState(false);
   const [fxReady, setFxReady] = useState(false);
 
@@ -43,7 +45,15 @@ const HeroSection = () => {
     // Start the WebGL effect on the first pointer move over the hero (it only reacts to the cursor anyway),
     // so none of its setup runs during page load.
     const start = () =>
-      Promise.all(imgs.map((img) => loaded(img).then(() => img.decode().catch(() => {})))).then(() => {
+      Promise.all([
+        new Promise<void>((resolve) => {
+          const d = new window.Image();
+          d.onload = d.onerror = () => resolve();
+          d.src = depthSrc.src;
+          depthImg.current = d;
+        }),
+        ...imgs.map((img) => loaded(img).then(() => img.decode().catch(() => {}))),
+      ]).then(() => {
         if (!cancelled) setPhotosLoaded(true);
       });
     bg.addEventListener("pointermove", start, { once: true, passive: true });
@@ -120,19 +130,35 @@ const HeroSection = () => {
     }
   });
 
-  // Redraw the gray backdrop + photo (where the DOM lays it out) into the displacement canvas
+  // Backdrop only: the photo itself is drawn by the 3D mesh pass (see `head`)
   const paintHero: Paint = (ctx, width, height) => {
     const bg = bgRef.current;
-    const photos = photosRef.current;
-    if (!bg || !photos) return;
-    const box = bg.getBoundingClientRect();
+    if (!bg) return;
     ctx.fillStyle = getComputedStyle(bg).backgroundColor;
     ctx.fillRect(0, 0, width, height);
-    const imgs = [...photos.querySelectorAll("img")].filter((img) => img.offsetParent !== null && img.naturalWidth > 0);
-    for (const img of imgs) {
-      const r = img.getBoundingClientRect();
-      ctx.drawImage(img, r.left - box.left, r.top - box.top, r.width, r.height);
-    }
+  };
+
+  // The photo's box relative to the displacement canvas, so the mesh lands exactly on the DOM photo
+  const headRef = useRef<Head | null>(null);
+  const getHead = (): Head | undefined => {
+    const photo = photosRef.current?.querySelector("img");
+    const depth = depthImg.current;
+    if (!photo || !depth) return undefined;
+    headRef.current ??= {
+      image: photo,
+      depth,
+      depthScale: 0.3,
+      intensity: 0.09,
+      getRect: () => {
+        const bg = bgRef.current;
+        const img = photosRef.current?.querySelector("img");
+        if (!bg || !img) return null;
+        const box = bg.getBoundingClientRect();
+        const r = img.getBoundingClientRect();
+        return { x: r.left - box.left, y: r.top - box.top, w: r.width, h: r.height };
+      },
+    };
+    return headRef.current;
   };
 
   return (
@@ -143,7 +169,7 @@ const HeroSection = () => {
         <div ref={bgRef} className="relative flex justify-center max-h-[100vh] h-[100vh] items-center overflow-hidden bg-gray-500">
           <div
             ref={photosRef}
-            className={`flex self-center justify-center items-center pointer-events-none ${fxReady ? "invisible" : ""}`}
+            className={`flex self-end justify-center items-center pointer-events-none ${fxReady ? "invisible" : ""}`}
           >
             <Image
               src={ProfilePicture}
@@ -154,12 +180,13 @@ const HeroSection = () => {
               height={1008}
               sizes="(max-width: 1024px) 180vh, 1600px"
               quality={70}
-              className="h-[100vh] w-auto max-w-none shrink-0"
+              className="h-[85vh] w-auto max-w-none shrink-0"
             />
           </div>
           {photosLoaded && (
             <Displacement
               paint={paintHero}
+              head={getHead()}
               onReady={() => setFxReady(true)}
               grid={40}
               threshold={300}
