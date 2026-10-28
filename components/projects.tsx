@@ -5,6 +5,7 @@ import MapinlyImage from "@/public/assets/Images/mapinly.png";
 import LernpiImage from "@/public/assets/Images/lernpi.png";
 import FluxgenImage from "@/public/assets/Images/Fluxgen.png";
 import ArmourImage from "@/public/assets/Images/armour.png";
+import PurrfectImage from "@/public/assets/Images/purrfectui.jpg";
 import BountyDeskImage from "@/public/assets/Images/bountydesk.png";
 import PoinuImage from "@/public/assets/Images/poinu.png";
 import Project from "./ui/Project";
@@ -22,6 +23,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ProjectsFramer = () => {
   const projects = [
+    {
+      title: "purrfect ui - Animated React Components",
+      src: PurrfectImage,
+      color: "#0B0B0B",
+      link: "https://purrfectui.com/",
+    },
     {
       title: "BountyDesk - Bug Bounty Triage",
       src: BountyDeskImage,
