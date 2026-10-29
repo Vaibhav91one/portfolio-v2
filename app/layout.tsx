@@ -14,7 +14,13 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/" },
   // In public/, not app/icon.svg: next.config sends every .svg through @svgr, which breaks the metadata icon loader
-  icons: { icon: { url: "/icon.svg", type: "image/svg+xml" } },
+  // PNG + /favicon.ico for Google's favicon crawler (wants a square raster, multiple of 48px)
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-96.png", type: "image/png", sizes: "96x96" },
+    ],
+  },
   keywords: [
     "Vaibhav Tomar",
     "Vaibhav91one",
