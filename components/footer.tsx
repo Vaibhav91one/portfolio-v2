@@ -100,7 +100,8 @@ const footer = () => {
                 I take ideas from a rough sketch to a shipped product. I design it, build it and tune
                 the motion myself. No handoff, no lost details. Design and code in one pair of hands.
               </p>
-              <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-10">
+              {/* data-nosnippet: keeps the phone/email out of Google result snippets */}
+              <div data-nosnippet className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-10">
                 <LinkList title="Contact" links={contact} />
                 <LinkList title="Socials" links={socials} external />
               </div>

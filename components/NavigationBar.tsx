@@ -14,7 +14,7 @@ type Props = {};
 const navItems = [
   { label: "Work", id: "projects" },
   { label: "About", id: "about" },
-  { label: "Contact", id: "footer" }, // assuming footer is your contact section
+  { label: "Contact", id: "contact" },
 ];
 
 const NavigationBar = (props: Props) => {
