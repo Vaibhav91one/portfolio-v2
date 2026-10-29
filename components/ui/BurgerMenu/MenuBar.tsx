@@ -51,7 +51,7 @@ export default function Menu({ setIsActive }: { setIsActive: (active: boolean) =
                     href="https://github.com/Vaibhav91one"
                     aria-label="GitHub"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="block hover:text-gray-400 p-5 rounded-full transition-colors"
                   >
                     <Github size={18} />
@@ -62,7 +62,7 @@ export default function Menu({ setIsActive }: { setIsActive: (active: boolean) =
                     href="https://x.com/VrsatileVaibhav"
                     aria-label="X (Twitter)"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="block hover:text-gray-400 p-5 rounded-full transition-colors"
                   >
                     {/* <Twitter size={30} />
@@ -75,7 +75,7 @@ export default function Menu({ setIsActive }: { setIsActive: (active: boolean) =
                     href="https://www.linkedin.com/in/vaibhav-tomar-a6b2b6255/"
                     aria-label="LinkedIn"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="me noopener noreferrer"
                     className="block hover:text-gray-400 p-5 rounded-full transition-colors"
                   >
                     <Linkedin size={18} />
