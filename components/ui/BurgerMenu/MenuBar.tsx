@@ -15,7 +15,7 @@ export default function Menu({ setIsActive }: { setIsActive: (active: boolean) =
   const navItems = [
     { label: "Work", id: "projects" },
     { label: "About", id: "about" },
-    { label: "Contact", id: "footer" },
+    { label: "Contact", id: "contact" },
   ];
 
   return (

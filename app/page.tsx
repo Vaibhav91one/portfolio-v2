@@ -28,7 +28,7 @@ export default function Home() {
             <About />
           </section>
         </main>
-        <section id="footer">
+        <section id="contact">
           <Footer />
         </section>
       </div>
