@@ -30,7 +30,7 @@ const LinkList = ({ title, links, external }: { title: string; links: typeof con
           <a
             href={l.href}
             className={linkCls}
-            {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+            {...(external && { target: "_blank", rel: "me noopener noreferrer" })}
           >
             {l.label}
             {external && (
