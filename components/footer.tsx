@@ -15,7 +15,7 @@ const contact = [
 const socials = [
   { label: "GitHub", href: "https://github.com/Vaibhav91one" },
   { label: "X (Twitter)", href: "https://x.com/VrsatileVaibhav" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/vaibhav-tomar-a6b2b6255/" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/vaibhavtomar91/" },
 ];
 
 const linkCls =

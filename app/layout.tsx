@@ -77,7 +77,7 @@ const jsonLd = {
       address: { "@type": "PostalAddress", addressCountry: "IN" },
       sameAs: [
         "https://github.com/Vaibhav91one",
-        "https://www.linkedin.com/in/vaibhav-tomar-a6b2b6255/",
+        "https://www.linkedin.com/in/vaibhavtomar91/",
         "https://x.com/VrsatileVaibhav",
       ],
     },
