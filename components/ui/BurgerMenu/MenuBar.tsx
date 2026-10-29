@@ -72,7 +72,7 @@ export default function Menu({ setIsActive }: { setIsActive: (active: boolean) =
                 </Magnetic>
                 <Magnetic>
                   <a
-                    href="https://www.linkedin.com/in/vaibhav-tomar-a6b2b6255/"
+                    href="https://www.linkedin.com/in/vaibhavtomar91/"
                     aria-label="LinkedIn"
                     target="_blank"
                     rel="me noopener noreferrer"
