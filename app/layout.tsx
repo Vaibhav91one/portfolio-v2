@@ -86,7 +86,7 @@ const jsonLd = {
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
       name: "Vaibhav Tomar",
-      alternateName: "vaibhavtomar.com",
+      alternateName: "v2.vaibhavtomar.com",
       publisher: { "@id": personId },
     },
     { "@type": "ProfilePage", url: SITE_URL, mainEntity: { "@id": personId } },
