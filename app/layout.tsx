@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   title,
   description,
   alternates: { canonical: "/" },
+  // archived site: vaibhavtomar.com (portfolio-v3) is the one that should rank, so keep v2 out of the index
+  robots: { index: false, follow: true },
   // In public/, not app/icon.svg: next.config sends every .svg through @svgr, which breaks the metadata icon loader
   // PNG + /favicon.ico for Google's favicon crawler (wants a square raster, multiple of 48px)
   icons: {
@@ -57,41 +59,6 @@ export const metadata: Metadata = {
   },
 };
 
-// schema.org graph: Person + WebSite + ProfilePage so Google ties the name, the site name and the profiles to this person
-const personId = `${SITE_URL}/#person`;
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": personId,
-      name: "Vaibhav Tomar",
-      alternateName: ["Vaibhav91one", "VrsatileVaibhav"],
-      description,
-      url: SITE_URL,
-      image: `${SITE_URL}/assets/Images/opengraph.jpg`,
-      email: "mailto:vaibhavtomar3003@gmail.com",
-      jobTitle: ["Design Engineer", "Software Developer"],
-      knowsAbout: ["Web development", "Next.js", "React", "GSAP", "Three.js", "UI design", "Motion design"],
-      worksFor: { "@type": "Organization", name: "Jio Platforms Limited" },
-      address: { "@type": "PostalAddress", addressCountry: "IN" },
-      sameAs: [
-        "https://github.com/Vaibhav91one",
-        "https://www.linkedin.com/in/vaibhavtomar91/",
-        "https://x.com/VrsatileVaibhav",
-      ],
-    },
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: "Vaibhav Tomar",
-      alternateName: "v2.vaibhavtomar.com",
-      publisher: { "@id": personId },
-    },
-    { "@type": "ProfilePage", url: SITE_URL, mainEntity: { "@id": personId } },
-  ],
-};
 
 export default function RootLayout({
   children,
@@ -109,7 +76,6 @@ export default function RootLayout({
             __html: `try{if(sessionStorage.getItem("seenPreloader"))document.documentElement.dataset.seen="1"}catch(e){}`,
           }}
         />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       {/* suppressHydrationWarning: extensions (e.g. ColorZilla) add attributes to <body> before React hydrates */}
       <body className="antialiased overscroll-y-none" suppressHydrationWarning>
